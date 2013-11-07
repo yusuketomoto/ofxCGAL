@@ -2,7 +2,100 @@
 
 namespace ofxCGAL {
     
-void test(ofMesh& m1, ofMesh& m2)
+void removeOutliers(PointList& points, float removed_percentage, int nb_neighbors)
+{
+    float start_tic = ofGetElapsedTimeMillis();
+    
+    // Removes outliers using erase-remove idiom.
+    // The Identity_property_map property map can be omitted here as it is the default value.
+    // removed_percentage = 5.0; // percentage of points to remove
+    // nb_neighbors = 24; // considers 24 nearest neighbor points
+    points.erase(CGAL::remove_outliers(points.begin(), points.end(),
+                                       CGAL::Identity_property_map<Point_3>(),
+                                       nb_neighbors, removed_percentage),
+                 points.end());
+    
+    // Optional: after erase(), use Scott Meyer's "swap trick" to trim excess capacity
+    vector<Point_3>(points).swap(points);
+    
+    ofLogVerbose("removeOutliers") << ofGetElapsedTimeMillis()-start_tic << "[msec]";
+}
+
+void simplifyCloud(PointList& points, float cell_size)
+{
+    float start_tic = ofGetElapsedTimeMillis();
+    
+    // simplification by clustering using erase-remove idiom
+    // cell_size = 0.001;
+    points.erase(CGAL::grid_simplify_point_set(points.begin(), points.end(), cell_size),
+                 points.end());
+    // Optional: after erase(), use Scott Meyer's "swap trick" to trim excess capacity
+    vector<Point_3>(points).swap(points);
+    
+    ofLogVerbose("simplifyCloud") << ofGetElapsedTimeMillis()-start_tic << "[msec]";
+
+}
+
+void smoothCloud(PointList & points, int nb_neighbors, int iter)
+{
+    float start_tic = ofGetElapsedTimeMillis();
+    
+    // Smoothing.
+    // nb_neighbors = 8; // default is 24 for real-life point sets
+    for (int k=0; k<iter; k++)
+        CGAL::jet_smooth_point_set(points.begin(), points.end(), nb_neighbors);
+    
+    ofLogVerbose("smoothCloud") << ofGetElapsedTimeMillis()-start_tic << "[msec]";
+}
+
+void estimateNormals(const PointList& points, PointVectorList& point_vectors, int nb_neighbors)
+{
+    float start_tic = ofGetElapsedTimeMillis();
+    
+    point_vectors.resize(points.size());
+    for (int i=0; i<points.size(); i++) {
+        point_vectors[i].first = points[i];
+    }
+    
+    // Estimates normals direction.
+    // Note: pca_estimate_normals() requires an iterator over points
+    // as well as property maps to access each point's position and normal.
+    // nb_neighbors = 18; // K-nearest neighbors = 3 rings
+    CGAL::pca_estimate_normals(point_vectors.begin(), point_vectors.end(),
+                               CGAL::First_of_pair_property_map<PointVectorPair>(),
+                               CGAL::Second_of_pair_property_map<PointVectorPair>(),
+                               nb_neighbors);
+    
+    ofLogVerbose("estimateNormals") << ofGetElapsedTimeMillis()-start_tic << "[msec]";
+}
+
+void orientNormals(PointVectorList& points, int nb_neighbors, bool trim)
+{
+    // Orients normals.
+    // Note: mst_orient_normals() requires an iterator over points
+    // as well as property maps to access each point's position and normal.
+    vector<PointVectorPair>::iterator unoriented_points_begin =
+    CGAL::mst_orient_normals(points.begin(), points.end(),
+                             CGAL::First_of_pair_property_map<PointVectorPair>(),
+                             CGAL::Second_of_pair_property_map<PointVectorPair>(),
+                             nb_neighbors);
+    
+    // Optional: delete points with an unoriented normal
+    // if you plan to call a reconstruction algorithm that expects oriented normals.
+    if (trim)
+        points.erase(unoriented_points_begin, points.end());
+}
+
+FT computeAverageSpacing(PointList& points, int nb_neighbors)
+{
+    FT average_spacing = CGAL::compute_average_spacing(points.begin(), points.end(),
+                                                       CGAL::Identity_property_map<Point_3>(),
+                                                       nb_neighbors);
+    return average_spacing;
+}
+
+
+void removeOutlierTest(ofMesh& m1, ofMesh& m2)
 {
     // Reads a .xyz point set file in points[].
     // The Identity_property_map property map can be omitted here as it is the default value.
@@ -29,20 +122,10 @@ void test(ofMesh& m1, ofMesh& m2)
 
 }
     
-    
-//    inline vector<PointList> loadXyz(const string& file_name)
-//    {
-//        vector<PointList> points;
-//        ifstream stream(ofToDataPath(file_name).c_str());
-//        assert(stream);
-//        assert(CGAL::read_xyz_points_and_normals(stream,
-//                                                 back_inserter(points),
-//                                                 CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type())));
-//        return points;
-//    }
-    
-void test1(ofMesh& m1, ofMesh& m2)
+void poissonReconstructionTest(ofMesh& m1, ofMesh& m2)
 {
+    float timer = ofGetElapsedTimeMillis();
+    
     string file_name = "kitten.xyz";
     
     // Poisson options
@@ -53,7 +136,7 @@ void test1(ofMesh& m1, ofMesh& m2)
     // Note: read_xyz_points_and_normals() requires an iterator over points
     // + property maps to access each point's position and normal.
     // The position property map can be omitted here as we use iterators over Point_3 elements.
-    PointList points;
+    PointWNList points;
     
     std::ifstream stream(ofToDataPath(file_name).c_str());
     if (!stream ||
@@ -65,6 +148,8 @@ void test1(ofMesh& m1, ofMesh& m2)
         std::cerr << "Error: cannot read file data/kitten.xyz" << std::endl;
         return EXIT_FAILURE;
     }
+    
+    ofLogNotice("Input file number of points") << points.size();
     
     m1.clear();
     for (auto& p : points) {
@@ -131,6 +216,9 @@ void test1(ofMesh& m1, ofMesh& m2)
         m2.addIndex(point_indices[it->halfedge()->next()->vertex()->point()]);
         m2.addIndex(point_indices[it->halfedge()->prev()->vertex()->point()]);
     }
+    
+    float elapsed_time = ofGetElapsedTimeMillis() - timer;
+    ofLogNotice("Surface Reconstruction takes [ms]") << elapsed_time;
     
     return EXIT_SUCCESS;
 
