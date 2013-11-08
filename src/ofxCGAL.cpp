@@ -71,6 +71,8 @@ void estimateNormals(const PointList& points, PointVectorList& point_vectors, in
 
 void orientNormals(PointVectorList& points, int nb_neighbors, bool trim)
 {
+    float start_tic = ofGetElapsedTimeMillis();
+    
     // Orients normals.
     // Note: mst_orient_normals() requires an iterator over points
     // as well as property maps to access each point's position and normal.
@@ -84,6 +86,8 @@ void orientNormals(PointVectorList& points, int nb_neighbors, bool trim)
     // if you plan to call a reconstruction algorithm that expects oriented normals.
     if (trim)
         points.erase(unoriented_points_begin, points.end());
+    
+    ofLogVerbose("orientNormals") << ofGetElapsedTimeMillis()-start_tic << "[msec]";
 }
 
 FT computeAverageSpacing(PointList& points, int nb_neighbors)
@@ -94,39 +98,13 @@ FT computeAverageSpacing(PointList& points, int nb_neighbors)
     return average_spacing;
 }
 
-
-void removeOutlierTest(ofMesh& m1, ofMesh& m2)
+    
+void reconstructPoissonSurface(PointVectorList& point_vectors, Polyhedron_3& polyhedron)
 {
-    // Reads a .xyz point set file in points[].
-    // The Identity_property_map property map can be omitted here as it is the default value.
-    string file_name = "oni.xyz";
+    float start_tic = ofGetElapsedTimeMillis();
     
-    vector<Point_3> points;
-    points = loadXyz<Point_3>(file_name);
-    
-    // Removes outliers using erase-remove idiom.
-    // The Identity_property_map property map can be omitted here as it is the default value.
-    const double removed_percentage = 5.0; // percentage of points to remove
-    const int nb_neighbors = 24; // considers 24 nearest neighbor points
-    
-    m1 = toOf(points);
-    
-    points.erase(CGAL::remove_outliers(points.begin(), points.end(),
-                                       CGAL::Identity_property_map<Point_3>(),
-                                       nb_neighbors, removed_percentage),
-                 points.end());
-    // Optional: after erase(), use Scott Meyer's "swap trick" to trim excess capacity
-    std::vector<Point_3>(points).swap(points);
-    
-    m2 = toOf(points);
-
-}
-    
-void poissonReconstructionTest(ofMesh& m1, ofMesh& m2)
-{
-    float timer = ofGetElapsedTimeMillis();
-    
-    string file_name = "kitten.xyz";
+    PointWNList points;
+    convert(point_vectors, points);
     
     // Poisson options
     FT sm_angle = 20.0; // Min triangle angle in degrees.
@@ -136,26 +114,6 @@ void poissonReconstructionTest(ofMesh& m1, ofMesh& m2)
     // Note: read_xyz_points_and_normals() requires an iterator over points
     // + property maps to access each point's position and normal.
     // The position property map can be omitted here as we use iterators over Point_3 elements.
-    PointWNList points;
-    
-    std::ifstream stream(ofToDataPath(file_name).c_str());
-    if (!stream ||
-        !CGAL::read_xyz_points_and_normals(
-                                           stream,
-                                           std::back_inserter(points),
-                                           CGAL::make_normal_of_point_with_normal_pmap(PointList::value_type())))
-    {
-        std::cerr << "Error: cannot read file data/kitten.xyz" << std::endl;
-        return EXIT_FAILURE;
-    }
-    
-    ofLogNotice("Input file number of points") << points.size();
-    
-    m1.clear();
-    for (auto& p : points) {
-        m1.addVertex(ofVec3f(p.x(), p.y(), p.z()));
-        m1.addNormal(ofVec3f(p.normal().x(), p.normal().y(), p.normal().z()));
-    }
     
     // Creates implicit function from the read points using the default solver.
     // Note: this method requires an iterator over points
@@ -195,33 +153,10 @@ void poissonReconstructionTest(ofMesh& m1, ofMesh& m2)
                             CGAL::Manifold_with_boundary_tag());  // require manifold mesh
     if(tr.number_of_vertices() == 0)
         return EXIT_FAILURE;
-    // saves reconstructed surface mesh
-    std::ofstream out(ofToDataPath("kitten_poisson-20-30-0.375.off").c_str());
-    Polyhedron_3 output_mesh;
-    CGAL::output_surface_facets_to_polyhedron(c2t3, output_mesh);
-    out << output_mesh;
     
-    m2.clear();
+    CGAL::output_surface_facets_to_polyhedron(c2t3, polyhedron);
     
-    map<Point_3, int> point_indices;
-    int count = 0;
-    
-    for (auto it=output_mesh.vertices_begin(); it!=output_mesh.vertices_end(); ++it) {
-        auto& p = it->point();
-        m2.addVertex(ofVec3f(p.x(), p.y(), p.z()));
-        point_indices[p] = count++;
-    }
-    for (auto it=output_mesh.facets_begin(); it!=output_mesh.facets_end(); ++it) {
-        m2.addIndex(point_indices[it->halfedge()->vertex()->point()]);
-        m2.addIndex(point_indices[it->halfedge()->next()->vertex()->point()]);
-        m2.addIndex(point_indices[it->halfedge()->prev()->vertex()->point()]);
-    }
-    
-    float elapsed_time = ofGetElapsedTimeMillis() - timer;
-    ofLogNotice("Surface Reconstruction takes [ms]") << elapsed_time;
-    
-    return EXIT_SUCCESS;
-
+    ofLogNotice("after surface reconstruction") << ofGetElapsedTimeMillis()-start_tic << " [msec]";
 }
-    
+
 }
