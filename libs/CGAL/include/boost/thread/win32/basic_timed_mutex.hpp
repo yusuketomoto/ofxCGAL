@@ -81,10 +81,8 @@ namespace boost
 
                     do
                     {
-                        unsigned const retval(win32::WaitForSingleObject(sem, ::boost::detail::win32::infinite));
-                        BOOST_VERIFY(0 == retval || ::boost::detail::win32::wait_abandoned == retval);
-//                        BOOST_VERIFY(win32::WaitForSingleObject(
-//                                         sem,::boost::detail::win32::infinite)==0);
+                        BOOST_VERIFY(win32::WaitForSingleObject(
+                                         sem,::boost::detail::win32::infinite)==0);
                         clear_waiting_and_try_lock(old_count);
                         lock_acquired=!(old_count&lock_flag_value);
                     }
@@ -95,13 +93,10 @@ namespace boost
             {
                 for(;;)
                 {
-                    bool const was_locked=(old_count&lock_flag_value) ? true : false;
-                    long const new_count=was_locked?(old_count+1):(old_count|lock_flag_value);
+                    long const new_count=(old_count&lock_flag_value)?(old_count+1):(old_count|lock_flag_value);
                     long const current=BOOST_INTERLOCKED_COMPARE_EXCHANGE(&active_count,new_count,old_count);
                     if(current==old_count)
                     {
-                        if(was_locked)
-                            old_count=new_count;
                         break;
                     }
                     old_count=current;

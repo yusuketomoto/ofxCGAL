@@ -15,7 +15,6 @@
 #define BOOST_GEOMETRY_MULTI_IO_WKT_WRITE_HPP
 
 #include <boost/geometry/multi/core/tags.hpp>
-#include <boost/geometry/multi/geometries/concepts/check.hpp>
 #include <boost/geometry/multi/io/wkt/detail/prefix.hpp>
 #include <boost/geometry/io/wkt/write.hpp>
 
@@ -61,7 +60,7 @@ namespace dispatch
 {
 
 template <typename Multi>
-struct wkt<Multi, multi_point_tag>
+struct wkt<multi_point_tag, Multi>
     : detail::wkt::wkt_multi
         <
             Multi,
@@ -75,7 +74,7 @@ struct wkt<Multi, multi_point_tag>
 {};
 
 template <typename Multi>
-struct wkt<Multi, multi_linestring_tag>
+struct wkt<multi_linestring_tag, Multi>
     : detail::wkt::wkt_multi
         <
             Multi,
@@ -88,7 +87,7 @@ struct wkt<Multi, multi_linestring_tag>
 {};
 
 template <typename Multi>
-struct wkt<Multi, multi_polygon_tag>
+struct wkt<multi_polygon_tag, Multi>
     : detail::wkt::wkt_multi
         <
             Multi,

@@ -2,7 +2,7 @@
 // buffer.hpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,15 +20,16 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <boost/detail/workaround.hpp>
 #include <boost/asio/detail/array_fwd.hpp>
 
-#if defined(BOOST_ASIO_MSVC)
+#if defined(BOOST_MSVC)
 # if defined(_HAS_ITERATOR_DEBUGGING) && (_HAS_ITERATOR_DEBUGGING != 0)
 #  if !defined(BOOST_ASIO_DISABLE_BUFFER_DEBUGGING)
 #   define BOOST_ASIO_ENABLE_BUFFER_DEBUGGING
 #  endif // !defined(BOOST_ASIO_DISABLE_BUFFER_DEBUGGING)
 # endif // defined(_HAS_ITERATOR_DEBUGGING)
-#endif // defined(BOOST_ASIO_MSVC)
+#endif // defined(BOOST_MSVC)
 
 #if defined(__GNUC__)
 # if defined(_GLIBCXX_DEBUG)
@@ -39,21 +40,14 @@
 #endif // defined(__GNUC__)
 
 #if defined(BOOST_ASIO_ENABLE_BUFFER_DEBUGGING)
-# include <boost/asio/detail/function.hpp>
+# include <boost/function.hpp>
 #endif // BOOST_ASIO_ENABLE_BUFFER_DEBUGGING
 
-#if defined(BOOST_ASIO_HAS_BOOST_WORKAROUND)
-# include <boost/detail/workaround.hpp>
-# if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582)) \
-    || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
-#  define BOOST_ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND
-# endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
-        // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
-#endif // defined(BOOST_ASIO_HAS_BOOST_WORKAROUND)
-
-#if defined(BOOST_ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND)
-# include <boost/asio/detail/type_traits.hpp>
-#endif // defined(BOOST_ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND)
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582)) \
+  || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
+# include <boost/type_traits/is_const.hpp>
+#endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+       // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 
 #include <boost/asio/detail/push_options.hpp>
 
@@ -108,14 +102,14 @@ public:
 
 #if defined(BOOST_ASIO_ENABLE_BUFFER_DEBUGGING)
   mutable_buffer(void* data, std::size_t size,
-      boost::asio::detail::function<void()> debug_check)
+      boost::function<void()> debug_check)
     : data_(data),
       size_(size),
       debug_check_(debug_check)
   {
   }
 
-  const boost::asio::detail::function<void()>& get_debug_check() const
+  const boost::function<void()>& get_debug_check() const
   {
     return debug_check_;
   }
@@ -131,7 +125,7 @@ private:
   std::size_t size_;
 
 #if defined(BOOST_ASIO_ENABLE_BUFFER_DEBUGGING)
-  boost::asio::detail::function<void()> debug_check_;
+  boost::function<void()> debug_check_;
 #endif // BOOST_ASIO_ENABLE_BUFFER_DEBUGGING
 };
 
@@ -238,14 +232,14 @@ public:
 
 #if defined(BOOST_ASIO_ENABLE_BUFFER_DEBUGGING)
   const_buffer(const void* data, std::size_t size,
-      boost::asio::detail::function<void()> debug_check)
+      boost::function<void()> debug_check)
     : data_(data),
       size_(size),
       debug_check_(debug_check)
   {
   }
 
-  const boost::asio::detail::function<void()>& get_debug_check() const
+  const boost::function<void()>& get_debug_check() const
   {
     return debug_check_;
   }
@@ -261,7 +255,7 @@ private:
   std::size_t size_;
 
 #if defined(BOOST_ASIO_ENABLE_BUFFER_DEBUGGING)
-  boost::asio::detail::function<void()> debug_check_;
+  boost::function<void()> debug_check_;
 #endif // BOOST_ASIO_ENABLE_BUFFER_DEBUGGING
 };
 
@@ -518,12 +512,12 @@ public:
 
   ~buffer_debug_check()
   {
-#if defined(BOOST_ASIO_MSVC) && (BOOST_ASIO_MSVC == 1400)
+#if BOOST_WORKAROUND(BOOST_MSVC, == 1400)
     // MSVC 8's string iterator checking may crash in a std::string::iterator
     // object's destructor when the iterator points to an already-destroyed
     // std::string object, unless the iterator is cleared first.
     iter_ = Iterator();
-#endif // defined(BOOST_ASIO_MSVC) && (BOOST_ASIO_MSVC == 1400)
+#endif // BOOST_WORKAROUND(BOOST_MSVC, == 1400)
   }
 
   void operator()()
@@ -834,7 +828,8 @@ inline const_buffers_1 buffer(const PodType (&data)[N],
         ? N * sizeof(PodType) : max_size_in_bytes));
 }
 
-#if defined(BOOST_ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND)
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582)) \
+  || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 
 // Borland C++ and Sun Studio think the overloads:
 //
@@ -869,7 +864,7 @@ struct buffer_types_base<true>
 
 template <typename PodType>
 struct buffer_types
-  : public buffer_types_base<is_const<PodType>::value>
+  : public buffer_types_base<boost::is_const<PodType>::value>
 {
 };
 
@@ -901,7 +896,8 @@ buffer(boost::array<PodType, N>& data, std::size_t max_size_in_bytes)
         ? data.size() * sizeof(PodType) : max_size_in_bytes));
 }
 
-#else // defined(BOOST_ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND)
+#else // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+      // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 
 /// Create a new modifiable buffer that represents the given POD array.
 /**
@@ -965,7 +961,8 @@ inline const_buffers_1 buffer(boost::array<const PodType, N>& data,
         ? data.size() * sizeof(PodType) : max_size_in_bytes));
 }
 
-#endif // defined(BOOST_ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND)
+#endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+       // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 
 /// Create a new non-modifiable buffer that represents the given POD array.
 /**

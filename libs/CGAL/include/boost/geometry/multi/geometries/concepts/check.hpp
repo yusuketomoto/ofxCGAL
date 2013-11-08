@@ -38,37 +38,37 @@ namespace dispatch
 
 
 template <typename Geometry>
-struct check<Geometry, multi_point_tag, true>
+struct check<multi_point_tag, Geometry, true>
     : detail::concept_check::check<concept::ConstMultiPoint<Geometry> >
 {};
 
 
 template <typename Geometry>
-struct check<Geometry, multi_point_tag, false>
+struct check<multi_point_tag, Geometry, false>
     : detail::concept_check::check<concept::MultiPoint<Geometry> >
 {};
 
 
 template <typename Geometry>
-struct check<Geometry, multi_linestring_tag, true>
+struct check<multi_linestring_tag, Geometry, true>
     : detail::concept_check::check<concept::ConstMultiLinestring<Geometry> >
 {};
 
 
 template <typename Geometry>
-struct check<Geometry, multi_linestring_tag, false>
+struct check<multi_linestring_tag, Geometry, false>
     : detail::concept_check::check<concept::MultiLinestring<Geometry> >
 {};
 
 
 template <typename Geometry>
-struct check<Geometry, multi_polygon_tag, true>
+struct check<multi_polygon_tag, Geometry, true>
     : detail::concept_check::check<concept::ConstMultiPolygon<Geometry> >
 {};
 
 
 template <typename Geometry>
-struct check<Geometry, multi_polygon_tag, false>
+struct check<multi_polygon_tag, Geometry, false>
     : detail::concept_check::check<concept::MultiPolygon<Geometry> >
 {};
 

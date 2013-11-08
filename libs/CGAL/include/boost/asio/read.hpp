@@ -2,7 +2,7 @@
 // read.hpp
 // ~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,7 +17,6 @@
 
 #include <boost/asio/detail/config.hpp>
 #include <cstddef>
-#include <boost/asio/async_result.hpp>
 #include <boost/asio/basic_streambuf_fwd.hpp>
 #include <boost/asio/error.hpp>
 
@@ -208,7 +207,7 @@ template <typename SyncReadStream, typename MutableBufferSequence,
 std::size_t read(SyncReadStream& s, const MutableBufferSequence& buffers,
     CompletionCondition completion_condition, boost::system::error_code& ec);
 
-#if !defined(BOOST_ASIO_NO_IOSTREAM)
+#if !defined(BOOST_NO_IOSTREAM)
 
 /// Attempt to read a certain amount of data from a stream before returning.
 /**
@@ -350,7 +349,7 @@ template <typename SyncReadStream, typename Allocator,
 std::size_t read(SyncReadStream& s, basic_streambuf<Allocator>& b,
     CompletionCondition completion_condition, boost::system::error_code& ec);
 
-#endif // !defined(BOOST_ASIO_NO_IOSTREAM)
+#endif // !defined(BOOST_NO_IOSTREAM)
 
 /*@}*/
 /**
@@ -423,9 +422,7 @@ std::size_t read(SyncReadStream& s, basic_streambuf<Allocator>& b,
  */
 template <typename AsyncReadStream, typename MutableBufferSequence,
     typename ReadHandler>
-BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
-    void (boost::system::error_code, std::size_t))
-async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
+void async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
     BOOST_ASIO_MOVE_ARG(ReadHandler) handler);
 
 /// Start an asynchronous operation to read a certain amount of data from a
@@ -493,13 +490,11 @@ async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
  */
 template <typename AsyncReadStream, typename MutableBufferSequence,
     typename CompletionCondition, typename ReadHandler>
-BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
-    void (boost::system::error_code, std::size_t))
-async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
+void async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
     CompletionCondition completion_condition,
     BOOST_ASIO_MOVE_ARG(ReadHandler) handler);
 
-#if !defined(BOOST_ASIO_NO_IOSTREAM)
+#if !defined(BOOST_NO_IOSTREAM)
 
 /// Start an asynchronous operation to read a certain amount of data from a
 /// stream.
@@ -550,9 +545,7 @@ async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
  *     handler); @endcode
  */
 template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
-BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
-    void (boost::system::error_code, std::size_t))
-async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
+void async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
     BOOST_ASIO_MOVE_ARG(ReadHandler) handler);
 
 /// Start an asynchronous operation to read a certain amount of data from a
@@ -613,13 +606,11 @@ async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
  */
 template <typename AsyncReadStream, typename Allocator,
     typename CompletionCondition, typename ReadHandler>
-BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
-    void (boost::system::error_code, std::size_t))
-async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
+void async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
     CompletionCondition completion_condition,
     BOOST_ASIO_MOVE_ARG(ReadHandler) handler);
 
-#endif // !defined(BOOST_ASIO_NO_IOSTREAM)
+#endif // !defined(BOOST_NO_IOSTREAM)
 
 /*@}*/
 

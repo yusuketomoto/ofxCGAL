@@ -20,7 +20,6 @@
 
 #include <boost/geometry/core/tag.hpp>
 #include <boost/geometry/core/tags.hpp>
-#include <boost/geometry/multi/geometries/concepts/check.hpp>
 #include <boost/geometry/multi/core/tags.hpp>
 
 #include <boost/geometry/algorithms/num_interior_rings.hpp>

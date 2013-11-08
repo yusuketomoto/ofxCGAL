@@ -68,8 +68,11 @@ namespace boost
       using namespace chrono;
       if (d > duration<Rep, Period>::zero())
       {
-        steady_clock::time_point c_timeout = steady_clock::now() + ceil<nanoseconds>(d);
-        sleep_until(c_timeout);
+        steady_clock::time_point c_now = steady_clock::now();
+        do
+        {
+          sleep_until(system_clock::now() + ceil<nanoseconds>(d));
+        } while (steady_clock::now() - c_now < d );
       }
     }
 

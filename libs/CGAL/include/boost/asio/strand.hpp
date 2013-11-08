@@ -2,7 +2,7 @@
 // strand.hpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,7 +16,6 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <boost/asio/detail/config.hpp>
-#include <boost/asio/async_result.hpp>
 #include <boost/asio/detail/handler_type_requirements.hpp>
 #include <boost/asio/detail/strand_service.hpp>
 #include <boost/asio/detail/wrapped_handler.hpp>
@@ -141,20 +140,13 @@ public:
    * @code void handler(); @endcode
    */
   template <typename CompletionHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(CompletionHandler, void ())
-  dispatch(BOOST_ASIO_MOVE_ARG(CompletionHandler) handler)
+  void dispatch(BOOST_ASIO_MOVE_ARG(CompletionHandler) handler)
   {
     // If you get an error on the following line it means that your handler does
     // not meet the documented type requirements for a CompletionHandler.
     BOOST_ASIO_COMPLETION_HANDLER_CHECK(CompletionHandler, handler) type_check;
 
-    detail::async_result_init<
-      CompletionHandler, void ()> init(
-        BOOST_ASIO_MOVE_CAST(CompletionHandler)(handler));
-
-    service_.dispatch(impl_, init.handler);
-
-    return init.result.get();
+    service_.dispatch(impl_, BOOST_ASIO_MOVE_CAST(CompletionHandler)(handler));
   }
 
   /// Request the strand to invoke the given handler and return
@@ -174,20 +166,13 @@ public:
    * @code void handler(); @endcode
    */
   template <typename CompletionHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(CompletionHandler, void ())
-  post(BOOST_ASIO_MOVE_ARG(CompletionHandler) handler)
+  void post(BOOST_ASIO_MOVE_ARG(CompletionHandler) handler)
   {
     // If you get an error on the following line it means that your handler does
     // not meet the documented type requirements for a CompletionHandler.
     BOOST_ASIO_COMPLETION_HANDLER_CHECK(CompletionHandler, handler) type_check;
 
-    detail::async_result_init<
-      CompletionHandler, void ()> init(
-        BOOST_ASIO_MOVE_CAST(CompletionHandler)(handler));
-
-    service_.post(impl_, init.handler);
-
-    return init.result.get();
+    service_.post(impl_, BOOST_ASIO_MOVE_CAST(CompletionHandler)(handler));
   }
 
   /// Create a new handler that automatically dispatches the wrapped handler
@@ -215,23 +200,11 @@ public:
 #if defined(GENERATING_DOCUMENTATION)
   unspecified
 #else
-  detail::wrapped_handler<strand, Handler, detail::is_continuation_if_running>
+  detail::wrapped_handler<strand, Handler>
 #endif
   wrap(Handler handler)
   {
-    return detail::wrapped_handler<io_service::strand, Handler,
-        detail::is_continuation_if_running>(*this, handler);
-  }
-
-  /// Determine whether the strand is running in the current thread.
-  /**
-   * @return @c true if the current thread is executing a handler that was
-   * submitted to the strand using post(), dispatch() or wrap(). Otherwise
-   * returns @c false.
-   */
-  bool running_in_this_thread() const
-  {
-    return service_.running_in_this_thread(impl_);
+    return detail::wrapped_handler<io_service::strand, Handler>(*this, handler);
   }
 
 private:

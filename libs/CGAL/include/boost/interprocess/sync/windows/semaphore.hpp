@@ -23,7 +23,6 @@
 #include <boost/interprocess/sync/windows/sync_utils.hpp>
 #include <boost/interprocess/sync/windows/winapi_semaphore_wrapper.hpp>
 #include <boost/interprocess/exceptions.hpp>
-#include <boost/assert.hpp>
 
 
 namespace boost {
@@ -57,8 +56,8 @@ inline windows_semaphore::windows_semaphore(unsigned int initialCount)
    bool open_or_created;
    handles.obtain_semaphore(this->id_, initialCount, &open_or_created);
    //The semaphore must be created, never opened
-   BOOST_ASSERT(open_or_created);
-   BOOST_ASSERT(open_or_created && winapi::get_last_error() != winapi::error_already_exists);
+   assert(open_or_created);
+   assert(open_or_created && winapi::get_last_error() != winapi::error_already_exists);
    (void)open_or_created;
 }
 

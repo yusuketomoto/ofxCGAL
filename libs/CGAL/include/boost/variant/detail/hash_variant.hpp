@@ -29,7 +29,8 @@ namespace boost {
         struct variant_hasher: public boost::static_visitor<std::size_t> {
             template <class T>
             std::size_t operator()(T const& val) const {
-                boost::hash<T> hasher;
+                using namespace boost;
+                hash<T> hasher;
                 return hasher(val);
             }
         };

@@ -63,7 +63,7 @@ OutputIterator copy_if ( const Range &r, OutputIterator result, Predicate p )
 /// \fn copy_while ( InputIterator first, InputIterator last, OutputIterator result, Predicate p )
 /// \brief Copies all the elements at the start of the input range that
 ///     satisfy the predicate to the output range.
-/// \return The updated input and output iterators
+/// \return The updated output iterator
 /// 
 /// \param first    The start of the input sequence
 /// \param last     One past the end of the input sequence
@@ -71,26 +71,25 @@ OutputIterator copy_if ( const Range &r, OutputIterator result, Predicate p )
 /// \param p        A predicate for testing the elements of the range
 ///
 template<typename InputIterator, typename OutputIterator, typename Predicate> 
-std::pair<InputIterator, OutputIterator>
-copy_while ( InputIterator first, InputIterator last, OutputIterator result, Predicate p )
+OutputIterator copy_while ( InputIterator first, InputIterator last, 
+                                OutputIterator result, Predicate p )
 {
     for ( ; first != last && p(*first); ++first )
         *result++ = *first;
-    return std::make_pair(first, result);
+    return result;
 }
 
 /// \fn copy_while ( const Range &r, OutputIterator result, Predicate p )
 /// \brief Copies all the elements at the start of the input range that
 ///     satisfy the predicate to the output range.
-/// \return The updated input and output iterators
+/// \return The updated output iterator
 /// 
 /// \param r        The input range
 /// \param result   An output iterator to write the results into
 /// \param p        A predicate for testing the elements of the range
 ///
 template<typename Range, typename OutputIterator, typename Predicate>
-std::pair<typename boost::range_iterator<const Range>::type, OutputIterator> 
-copy_while ( const Range &r, OutputIterator result, Predicate p )
+OutputIterator copy_while ( const Range &r, OutputIterator result, Predicate p )
 {
     return boost::algorithm::copy_while (boost::begin (r), boost::end(r), result, p);
 }
@@ -107,12 +106,11 @@ copy_while ( const Range &r, OutputIterator result, Predicate p )
 /// \param p        A predicate for testing the elements of the range
 ///
 template<typename InputIterator, typename OutputIterator, typename Predicate> 
-std::pair<InputIterator, OutputIterator>
-copy_until ( InputIterator first, InputIterator last, OutputIterator result, Predicate p )
+OutputIterator copy_until ( InputIterator first, InputIterator last, OutputIterator result, Predicate p )
 {
     for ( ; first != last && !p(*first); ++first )
         *result++ = *first;
-    return std::make_pair(first, result);
+    return result;
 }
 
 /// \fn copy_until ( const Range &r, OutputIterator result, Predicate p )
@@ -125,8 +123,7 @@ copy_until ( InputIterator first, InputIterator last, OutputIterator result, Pre
 /// \param p        A predicate for testing the elements of the range
 ///
 template<typename Range, typename OutputIterator, typename Predicate>
-std::pair<typename boost::range_iterator<const Range>::type, OutputIterator> 
-copy_until ( const Range &r, OutputIterator result, Predicate p )
+OutputIterator copy_until ( const Range &r, OutputIterator result, Predicate p )
 {
     return boost::algorithm::copy_until (boost::begin (r), boost::end(r), result, p);
 }

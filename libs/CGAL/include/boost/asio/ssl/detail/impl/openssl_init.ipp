@@ -3,7 +3,7 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 // Copyright (c) 2005 Voipster / Indrek dot Juhani at voipster dot com
-// Copyright (c) 2005-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2005-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,7 +18,7 @@
 
 #include <boost/asio/detail/config.hpp>
 #include <vector>
-#include <boost/asio/detail/assert.hpp>
+#include <boost/assert.hpp>
 #include <boost/asio/detail/mutex.hpp>
 #include <boost/asio/detail/tss_ptr.hpp>
 #include <boost/asio/ssl/detail/openssl_init.hpp>
@@ -45,22 +45,10 @@ public:
       mutexes_[i].reset(new boost::asio::detail::mutex);
     ::CRYPTO_set_locking_callback(&do_init::openssl_locking_func);
     ::CRYPTO_set_id_callback(&do_init::openssl_id_func);
-
-#if !defined(SSL_OP_NO_COMPRESSION) \
-  && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-    null_compression_methods_ = sk_SSL_COMP_new_null();
-#endif // !defined(SSL_OP_NO_COMPRESSION)
-       // && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
   }
 
   ~do_init()
   {
-#if !defined(SSL_OP_NO_COMPRESSION) \
-  && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-    sk_SSL_COMP_free(null_compression_methods_);
-#endif // !defined(SSL_OP_NO_COMPRESSION)
-       // && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-
     ::CRYPTO_set_id_callback(0);
     ::CRYPTO_set_locking_callback(0);
     ::ERR_free_strings();
@@ -73,27 +61,18 @@ public:
 #endif // !defined(OPENSSL_NO_ENGINE)
   }
 
-#if !defined(SSL_OP_NO_COMPRESSION) \
-  && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-  STACK_OF(SSL_COMP)* get_null_compression_methods() const
-  {
-    return null_compression_methods_;
-  }
-#endif // !defined(SSL_OP_NO_COMPRESSION)
-       // && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-
 private:
   static unsigned long openssl_id_func()
   {
-#if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+#if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
     return ::GetCurrentThreadId();
-#else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+#else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
     void* id = instance()->thread_id_;
     if (id == 0)
       instance()->thread_id_ = id = &id; // Ugh.
-    BOOST_ASIO_ASSERT(sizeof(unsigned long) >= sizeof(void*));
+    BOOST_ASSERT(sizeof(unsigned long) >= sizeof(void*));
     return reinterpret_cast<unsigned long>(id);
-#endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+#endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   }
 
   static void openssl_locking_func(int mode, int n, 
@@ -109,16 +88,10 @@ private:
   std::vector<boost::asio::detail::shared_ptr<
         boost::asio::detail::mutex> > mutexes_;
 
-#if !defined(BOOST_ASIO_WINDOWS) && !defined(__CYGWIN__)
+#if !defined(BOOST_WINDOWS) && !defined(__CYGWIN__)
   // The thread identifiers to be used by openssl.
   boost::asio::detail::tss_ptr<void> thread_id_;
-#endif // !defined(BOOST_ASIO_WINDOWS) && !defined(__CYGWIN__)
-
-#if !defined(SSL_OP_NO_COMPRESSION) \
-  && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-  STACK_OF(SSL_COMP)* null_compression_methods_;
-#endif // !defined(SSL_OP_NO_COMPRESSION)
-       // && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
+#endif // !defined(BOOST_WINDOWS) && !defined(__CYGWIN__)
 };
 
 boost::asio::detail::shared_ptr<openssl_init_base::do_init>
@@ -127,15 +100,6 @@ openssl_init_base::instance()
   static boost::asio::detail::shared_ptr<do_init> init(new do_init);
   return init;
 }
-
-#if !defined(SSL_OP_NO_COMPRESSION) \
-  && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
-STACK_OF(SSL_COMP)* openssl_init_base::get_null_compression_methods()
-{
-  return instance()->get_null_compression_methods();
-}
-#endif // !defined(SSL_OP_NO_COMPRESSION)
-       // && (OPENSSL_VERSION_NUMBER >= 0x00908000L)
 
 } // namespace detail
 } // namespace ssl

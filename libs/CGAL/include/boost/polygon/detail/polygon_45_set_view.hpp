@@ -39,7 +39,6 @@ namespace boost { namespace polygon{
       rinput_.set(polygon_45_set_traits<rtype>::begin(rvalue_),
                   polygon_45_set_traits<rtype>::end(rvalue_));
 #ifdef BOOST_POLYGON_MSVC
-#pragma warning (push)
 #pragma warning (disable: 4127)
 #endif
       if(op_type == 0)
@@ -51,7 +50,7 @@ namespace boost { namespace polygon{
       else
         output_ -= rinput_;
 #ifdef BOOST_POLYGON_MSVC
-#pragma warning (pop)
+#pragma warning (default: 4127)
 #endif
     }
   };
@@ -63,7 +62,6 @@ namespace boost { namespace polygon{
       output_.set(polygon_45_set_traits<ltype>::begin(lvalue_),
                   polygon_45_set_traits<ltype>::end(lvalue_));
 #ifdef BOOST_POLYGON_MSVC
-#pragma warning (push)
 #pragma warning (disable: 4127)
 #endif
       if(op_type == 0)
@@ -75,7 +73,7 @@ namespace boost { namespace polygon{
       else
         output_ -= rvalue_;
 #ifdef BOOST_POLYGON_MSVC
-#pragma warning (pop)
+#pragma warning (default: 4127)
 #endif
     }
   };
@@ -155,7 +153,6 @@ namespace boost { namespace polygon{
     rinput_.set(polygon_45_set_traits<rtype>::begin(rvalue_),
                 polygon_45_set_traits<rtype>::end(rvalue_));
 #ifdef BOOST_POLYGON_MSVC
-#pragma warning (push)
 #pragma warning (disable: 4127)
 #endif
     if(op_type == 0)
@@ -167,7 +164,7 @@ namespace boost { namespace polygon{
     else
       output_ -= rinput_;
 #ifdef BOOST_POLYGON_MSVC
-#pragma warning (pop)
+#pragma warning (default: 4127)
 #endif
     polygon_45_set_mutable_traits<geometry_type_1>::set(lvalue_, output_.begin(), output_.end());
     return lvalue_;

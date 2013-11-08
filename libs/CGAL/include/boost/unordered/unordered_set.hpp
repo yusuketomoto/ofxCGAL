@@ -176,53 +176,53 @@ namespace unordered
         unordered_set& operator=(std::initializer_list<value_type>);
 #endif
 
-        allocator_type get_allocator() const BOOST_NOEXCEPT
+        allocator_type get_allocator() const
         {
             return table_.node_alloc();
         }
 
         // size and capacity
 
-        bool empty() const BOOST_NOEXCEPT
+        bool empty() const
         {
             return table_.size_ == 0;
         }
 
-        size_type size() const BOOST_NOEXCEPT
+        size_type size() const
         {
             return table_.size_;
         }
 
-        size_type max_size() const BOOST_NOEXCEPT;
+        size_type max_size() const;
 
         // iterators
 
-        iterator begin() BOOST_NOEXCEPT
+        iterator begin()
         {
             return table_.begin();
         }
 
-        const_iterator begin() const BOOST_NOEXCEPT
+        const_iterator begin() const
         {
             return table_.begin();
         }
 
-        iterator end() BOOST_NOEXCEPT
+        iterator end()
         {
             return iterator();
         }
 
-        const_iterator end() const BOOST_NOEXCEPT
+        const_iterator end() const
         {
             return const_iterator();
         }
 
-        const_iterator cbegin() const BOOST_NOEXCEPT
+        const_iterator cbegin() const
         {
             return table_.begin();
         }
 
-        const_iterator cend() const BOOST_NOEXCEPT
+        const_iterator cend() const
         {
             return const_iterator();
         }
@@ -434,12 +434,12 @@ namespace unordered
 
         // bucket interface
 
-        size_type bucket_count() const BOOST_NOEXCEPT
+        size_type bucket_count() const
         {
             return table_.bucket_count_;
         }
 
-        size_type max_bucket_count() const BOOST_NOEXCEPT
+        size_type max_bucket_count() const
         {
             return table_.max_bucket_count();
         }
@@ -486,13 +486,13 @@ namespace unordered
 
         // hash policy
 
-        float max_load_factor() const BOOST_NOEXCEPT
+        float max_load_factor() const
         {
             return table_.mlf_;
         }
 
-        float load_factor() const BOOST_NOEXCEPT;
-        void max_load_factor(float) BOOST_NOEXCEPT;
+        float load_factor() const;
+        void max_load_factor(float);
         void rehash(size_type);
         void reserve(size_type);
 
@@ -644,53 +644,53 @@ namespace unordered
         unordered_multiset& operator=(std::initializer_list<value_type>);
 #endif
 
-        allocator_type get_allocator() const BOOST_NOEXCEPT
+        allocator_type get_allocator() const
         {
             return table_.node_alloc();
         }
 
         // size and capacity
 
-        bool empty() const BOOST_NOEXCEPT
+        bool empty() const
         {
             return table_.size_ == 0;
         }
 
-        size_type size() const BOOST_NOEXCEPT
+        size_type size() const
         {
             return table_.size_;
         }
 
-        size_type max_size() const BOOST_NOEXCEPT;
+        size_type max_size() const;
 
         // iterators
 
-        iterator begin() BOOST_NOEXCEPT
+        iterator begin()
         {
             return iterator(table_.begin());
         }
 
-        const_iterator begin() const BOOST_NOEXCEPT
+        const_iterator begin() const
         {
             return const_iterator(table_.begin());
         }
 
-        iterator end() BOOST_NOEXCEPT
+        iterator end()
         {
             return iterator();
         }
 
-        const_iterator end() const BOOST_NOEXCEPT
+        const_iterator end() const
         {
             return const_iterator();
         }
 
-        const_iterator cbegin() const BOOST_NOEXCEPT
+        const_iterator cbegin() const
         {
             return const_iterator(table_.begin());
         }
 
-        const_iterator cend() const BOOST_NOEXCEPT
+        const_iterator cend() const
         {
             return const_iterator();
         }
@@ -902,12 +902,12 @@ namespace unordered
 
         // bucket interface
 
-        size_type bucket_count() const BOOST_NOEXCEPT
+        size_type bucket_count() const
         {
             return table_.bucket_count_;
         }
 
-        size_type max_bucket_count() const BOOST_NOEXCEPT
+        size_type max_bucket_count() const
         {
             return table_.max_bucket_count();
         }
@@ -954,13 +954,13 @@ namespace unordered
 
         // hash policy
 
-        float max_load_factor() const BOOST_NOEXCEPT
+        float max_load_factor() const
         {
             return table_.mlf_;
         }
 
-        float load_factor() const BOOST_NOEXCEPT;
-        void max_load_factor(float) BOOST_NOEXCEPT;
+        float load_factor() const;
+        void max_load_factor(float);
         void rehash(size_type);
         void reserve(size_type);
 
@@ -1080,7 +1080,7 @@ namespace unordered
     // size and capacity
 
     template <class T, class H, class P, class A>
-    std::size_t unordered_set<T,H,P,A>::max_size() const BOOST_NOEXCEPT
+    std::size_t unordered_set<T,H,P,A>::max_size() const
     {
         return table_.max_size();
     }
@@ -1200,13 +1200,13 @@ namespace unordered
     // hash policy
 
     template <class T, class H, class P, class A>
-    float unordered_set<T,H,P,A>::load_factor() const BOOST_NOEXCEPT
+    float unordered_set<T,H,P,A>::load_factor() const
     {
         return table_.load_factor();
     }
 
     template <class T, class H, class P, class A>
-    void unordered_set<T,H,P,A>::max_load_factor(float m) BOOST_NOEXCEPT
+    void unordered_set<T,H,P,A>::max_load_factor(float m)
     {
         table_.max_load_factor(m);
     }
@@ -1364,7 +1364,7 @@ namespace unordered
     // size and capacity
 
     template <class T, class H, class P, class A>
-    std::size_t unordered_multiset<T,H,P,A>::max_size() const BOOST_NOEXCEPT
+    std::size_t unordered_multiset<T,H,P,A>::max_size() const
     {
         return table_.max_size();
     }
@@ -1484,13 +1484,13 @@ namespace unordered
     // hash policy
 
     template <class T, class H, class P, class A>
-    float unordered_multiset<T,H,P,A>::load_factor() const BOOST_NOEXCEPT
+    float unordered_multiset<T,H,P,A>::load_factor() const
     {
         return table_.load_factor();
     }
 
     template <class T, class H, class P, class A>
-    void unordered_multiset<T,H,P,A>::max_load_factor(float m) BOOST_NOEXCEPT
+    void unordered_multiset<T,H,P,A>::max_load_factor(float m)
     {
         table_.max_load_factor(m);
     }

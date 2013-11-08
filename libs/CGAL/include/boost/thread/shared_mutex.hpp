@@ -18,7 +18,6 @@
 #include <boost/thread/win32/shared_mutex.hpp>
 #endif
 #elif defined(BOOST_THREAD_PLATFORM_PTHREAD)
-//#include <boost/thread/v2/shared_mutex.hpp>
 #include <boost/thread/pthread/shared_mutex.hpp>
 #else
 #error "Boost threads unavailable on this platform"

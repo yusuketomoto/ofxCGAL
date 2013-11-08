@@ -81,7 +81,6 @@ class shared_memory_object
    //!Does not throw
    shared_memory_object(BOOST_RV_REF(shared_memory_object) moved)
       :  m_handle(file_handle_t(ipcdetail::invalid_file()))
-      ,  m_mode(read_only)
    {  this->swap(moved);   }
 
    //!Moves the ownership of "moved"'s shared memory to *this.
@@ -145,7 +144,6 @@ class shared_memory_object
 
 inline shared_memory_object::shared_memory_object()
    :  m_handle(file_handle_t(ipcdetail::invalid_file()))
-   ,  m_mode(read_only)
 {}
 
 inline shared_memory_object::~shared_memory_object()
@@ -320,26 +318,20 @@ inline bool shared_memory_object::priv_open_or_create
       break;
       case ipcdetail::DoOpenOrCreate:
       {
-         //We need a create/open loop to change permissions correctly using fchmod, since
-         //with "O_CREAT" only we don't know if we've created or opened the shm.
+         oflag |= O_CREAT;
+         //We need a loop to change permissions correctly using fchmod, since
+         //with "O_CREAT only" shm_open we don't know if we've created or opened the file.
          while(1){
-            //Try to create shared memory
-            m_handle = shm_open(m_filename.c_str(), oflag | (O_CREAT | O_EXCL), unix_perm);
-            //If successful change real permissions
+            m_handle = shm_open(m_filename.c_str(), oflag, unix_perm);
             if(m_handle >= 0){
                ::fchmod(m_handle, unix_perm);
+               break;
             }
-            //If already exists, try to open
             else if(errno == EEXIST){
-               m_handle = shm_open(m_filename.c_str(), oflag, unix_perm);
-               //If open fails and errno tells the file does not exist
-               //(shm was removed between creation and opening tries), just retry
-               if(m_handle < 0 && errno == ENOENT){
-                  continue;
+               if((m_handle = shm_open(m_filename.c_str(), oflag, unix_perm)) >= 0 || errno != ENOENT){
+                  break;
                }
             }
-            //Exit retries
-            break;
          }
       }
       break;
@@ -351,7 +343,7 @@ inline bool shared_memory_object::priv_open_or_create
    }
 
    //Check for error
-   if(m_handle < 0){
+   if(m_handle == -1){
       error_info err = errno;
       this->priv_close();
       throw interprocess_exception(err);

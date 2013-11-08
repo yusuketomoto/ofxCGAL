@@ -18,9 +18,7 @@
 #include <boost/range.hpp>
 
 #include <boost/geometry/algorithms/centroid.hpp>
-#include <boost/geometry/multi/core/tags.hpp>
 #include <boost/geometry/multi/core/point_type.hpp>
-#include <boost/geometry/multi/geometries/concepts/check.hpp>
 #include <boost/geometry/multi/algorithms/num_points.hpp>
 
 

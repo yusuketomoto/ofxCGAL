@@ -98,6 +98,7 @@ namespace boost { namespace spirit
                 }
                 static void move(void* const* src, void** dest)
                 {
+                    reinterpret_cast<T*>(dest)->~T();
                     *reinterpret_cast<T*>(dest) =
                         *reinterpret_cast<T const*>(src);
                 }
@@ -143,6 +144,7 @@ namespace boost { namespace spirit
                 }
                 static void move(void* const* src, void** dest)
                 {
+                    (*reinterpret_cast<T**>(dest))->~T();
                     **reinterpret_cast<T**>(dest) =
                         **reinterpret_cast<T* const*>(src);
                 }

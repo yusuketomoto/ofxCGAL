@@ -73,27 +73,21 @@ namespace boost
 
 
     // observers
+  private:
 
     /**
      * @return the owned mutex.
      */
-    mutex_type* mutex() const BOOST_NOEXCEPT
+    const mutex_type* mutex() const BOOST_NOEXCEPT
     {
       return &mtx_;
     }
-
-    /**
-     * @return whether this lock is locking a mutex.
-     */
-    bool owns_lock() const BOOST_NOEXCEPT
-    {
-      return true;
-    }
+  public:
 
     /**
      * @return whether this lock is locking that mutex.
      */
-    bool owns_lock(const mutex_type* l) const BOOST_NOEXCEPT
+    bool owns_lock(mutex_type const* l) const BOOST_NOEXCEPT
     {
       return l == mutex();
     } /*< strict locks specific function >*/
@@ -108,7 +102,7 @@ namespace boost
   };
   //]
   template <typename Lockable>
-  struct is_strict_lock_sur_parole<strict_lock<Lockable> > : true_type
+  struct is_strict_lock_sur_parolle<strict_lock<Lockable> > : true_type
   {
   };
 
@@ -179,22 +173,15 @@ namespace boost
     }
 
     // observers
+private:
     /**
      * return @c the owned mutex.
      */
-    mutex_type* mutex() const BOOST_NOEXCEPT
+    const mutex_type* mutex() const BOOST_NOEXCEPT
     {
       return tmp_lk_.mutex();
     }
-
-    /**
-     * @return whether this lock is locking a mutex.
-     */
-    bool owns_lock() const BOOST_NOEXCEPT
-    {
-      return true;
-    }
-
+public:
     /**
      * @return whether if this lock is locking that mutex.
      */
@@ -213,7 +200,7 @@ namespace boost
   //]
 
   template <typename Lock>
-  struct is_strict_lock_sur_parole<nested_strict_lock<Lock> > : true_type
+  struct is_strict_lock_sur_parolle<nested_strict_lock<Lock> > : true_type
   {
   };
 

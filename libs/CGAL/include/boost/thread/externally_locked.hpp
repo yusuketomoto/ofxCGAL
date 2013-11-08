@@ -33,8 +33,6 @@ namespace boost
 
   //[externally_locked
   template <typename T, typename MutexType = boost::mutex>
-  class externally_locked;
-  template <typename T, typename MutexType>
   class externally_locked
   {
     //BOOST_CONCEPT_ASSERT(( CopyConstructible<T> ));
@@ -48,7 +46,7 @@ namespace boost
      * Requires: T is a model of CopyConstructible.
      * Effects: Constructs an externally locked object copying the cloaked type.
      */
-    externally_locked(mutex_type& mtx, const T& obj) :
+    BOOST_CONSTEXPR externally_locked(mutex_type& mtx, const T& obj) :
       obj_(obj), mtx_(&mtx)
     {
     }
@@ -57,7 +55,7 @@ namespace boost
      * Requires: T is a model of Movable.
      * Effects: Constructs an externally locked object by moving the cloaked type.
      */
-    externally_locked(mutex_type& mtx, BOOST_THREAD_RV_REF(T) obj) :
+    BOOST_CONSTEXPR externally_locked(mutex_type& mtx, BOOST_THREAD_RV_REF(T) obj) :
       obj_(move(obj)), mtx_(&mtx)
     {
     }
@@ -66,46 +64,18 @@ namespace boost
      * Requires: T is a model of DefaultConstructible.
      * Effects: Constructs an externally locked object initializing the cloaked type with the default constructor.
      */
-    externally_locked(mutex_type& mtx) // BOOST_NOEXCEPT_IF(BOOST_NOEXCEPT_EXPR(T()))
-    : obj_(), mtx_(&mtx)
+    externally_locked(mutex_type& mtx) :
+      obj_(), mtx_(&mtx)
     {
     }
 
-    /**
-     *  Copy constructor
-     */
-    externally_locked(externally_locked const& rhs) //BOOST_NOEXCEPT
-    : obj_(rhs.obj_), mtx_(rhs.mtx_)
-    {
-    }
     /**
      *  Move constructor
      */
-    externally_locked(BOOST_THREAD_RV_REF(externally_locked) rhs) //BOOST_NOEXCEPT
-    : obj_(move(rhs.obj_)), mtx_(rhs.mtx_)
+    externally_locked(BOOST_THREAD_RV_REF(externally_locked) rhs) :
+    obj_(move(rhs.obj_)), mtx_(rhs.mtx_)
     {
-    }
-
-    /// assignment
-    externally_locked& operator=(externally_locked const& rhs) //BOOST_NOEXCEPT
-    {
-      obj_=rhs.obj_;
-      mtx_=rhs.mtx_;
-      return *this;
-    }
-
-    /// move assignment
-    externally_locked& operator=(BOOST_THREAD_RV_REF(externally_locked) rhs) // BOOST_NOEXCEPT
-    {
-      obj_=move(rhs.obj_);
-      mtx_=rhs.mtx_;
-      return *this;
-    }
-
-    void swap(externally_locked& rhs) //BOOST_NOEXCEPT_IF(BOOST_NOEXCEPT_EXPR)
-    {
-      swap(obj_, rhs.obj_);
-      swap(mtx_, rhs.mtx_);
+      rhs.mtx_=0;
     }
 
     /**
@@ -156,12 +126,13 @@ namespace boost
       BOOST_STATIC_ASSERT( (is_strict_lock<Lock>::value)); /*< lk is a strict lock "sur parolle" >*/
       BOOST_STATIC_ASSERT( (is_same<mutex_type, typename Lock::mutex_type>::value)); /*< that locks the same type >*/
 
+      BOOST_THREAD_ASSERT_PRECONDITION(  lk.owns_lock(), lock_error() ); /*< run time check throw if no locked >*/
       BOOST_THREAD_ASSERT_PRECONDITION(  lk.owns_lock(mtx_), lock_error() ); /*< run time check throw if not locks the same >*/
 
       return obj_;
     }
 
-    mutex_type* mutex() const BOOST_NOEXCEPT
+    mutex_type* mutex()
     {
       return mtx_;
     }
@@ -204,45 +175,25 @@ namespace boost
   public:
     typedef MutexType mutex_type;
 
-    BOOST_THREAD_COPYABLE_AND_MOVABLE( externally_locked )
+    BOOST_THREAD_MOVABLE_ONLY( externally_locked )
 
     /**
      * Effects: Constructs an externally locked object storing the cloaked reference object.
      */
-    externally_locked(T& obj, mutex_type& mtx) BOOST_NOEXCEPT :
+    externally_locked(T& obj, mutex_type& mtx) :
       obj_(&obj), mtx_(&mtx)
     {
     }
 
-    /// copy constructor
-    externally_locked(externally_locked const& rhs) BOOST_NOEXCEPT :
-    obj_(rhs.obj_), mtx_(rhs.mtx_)
-    {
-    }
-
     /// move constructor
-    externally_locked(BOOST_THREAD_RV_REF(externally_locked) rhs) BOOST_NOEXCEPT :
+    externally_locked(BOOST_THREAD_RV_REF(externally_locked) rhs) :
     obj_(rhs.obj_), mtx_(rhs.mtx_)
     {
+      rhs.obj_=0;
+      rhs.mtx_=0;
     }
 
-    /// assignment
-    externally_locked& operator=(externally_locked const& rhs) BOOST_NOEXCEPT
-    {
-      obj_=rhs.obj_;
-      mtx_=rhs.mtx_;
-      return *this;
-    }
-
-    /// move assignment
-    externally_locked& operator=(BOOST_THREAD_RV_REF(externally_locked) rhs) BOOST_NOEXCEPT
-    {
-      obj_=rhs.obj_;
-      mtx_=rhs.mtx_;
-      return *this;
-    }
-
-    void swap(externally_locked& rhs) BOOST_NOEXCEPT
+    void swap(externally_locked& rhs)
     {
       swap(obj_, rhs.obj_);
       swap(mtx_, rhs.mtx_);
@@ -294,6 +245,7 @@ namespace boost
       BOOST_CONCEPT_ASSERT(( StrictLock<Lock> ));
       BOOST_STATIC_ASSERT( (is_strict_lock<Lock>::value)); /*< lk is a strict lock "sur parolle" >*/
       BOOST_STATIC_ASSERT( (is_same<mutex_type, typename Lock::mutex_type>::value)); /*< that locks the same type >*/
+      //BOOST_THREAD_ASSERT_PRECONDITION(  lk.owns_lock(), lock_error() ); /*< run time check throw if no locked >*/
       BOOST_THREAD_ASSERT_PRECONDITION(  lk.owns_lock(mtx_), lock_error() ); /*< run time check throw if not locks the same >*/
       return *obj_;
     }
@@ -310,10 +262,11 @@ namespace boost
       BOOST_CONCEPT_ASSERT(( StrictLock<Lock> ));
       BOOST_STATIC_ASSERT( (is_strict_lock<Lock>::value)); /*< lk is a strict lock "sur parolle" >*/
       BOOST_STATIC_ASSERT( (is_same<mutex_type, typename Lock::mutex_type>::value)); /*< that locks the same type >*/
+      //BOOST_THREAD_ASSERT_PRECONDITION(  lk.owns_lock(), lock_error() ); /*< run time check throw if no locked >*/
       BOOST_THREAD_ASSERT_PRECONDITION(  lk.owns_lock(mtx_), lock_error() ); /*< run time check throw if not locks the same >*/
       return *obj_;
     }
-    mutex_type* mutex() const BOOST_NOEXCEPT
+    mutex_type* mutex()
     {
       return mtx_;
     }
@@ -339,7 +292,7 @@ namespace boost
   //]
 
   template <typename T, typename MutexType>
-  void swap(externally_locked<T, MutexType> & lhs, externally_locked<T, MutexType> & rhs) // BOOST_NOEXCEPT
+  void swap(externally_locked<T, MutexType> & lhs, externally_locked<T, MutexType> & rhs)
   {
     lhs.swap(rhs);
   }

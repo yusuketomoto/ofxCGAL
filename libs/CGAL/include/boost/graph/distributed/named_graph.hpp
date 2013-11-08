@@ -267,8 +267,7 @@ public:
 
   /// Notify the named_graph that we are removing the given
   /// vertex. This is a no-op.
-  template <typename VertexIterStability>
-  void removing_vertex(Vertex, VertexIterStability) { }
+  void removing_vertex(Vertex) { }
 
   /// Notify the named_graph that we are clearing the graph
   void clearing_graph() { }
@@ -1212,8 +1211,7 @@ public:
 
   /// Notify the named_graph that we are removing the given
   /// vertex. This is a no-op.
-  template <typename VertexIterStability>
-  void removing_vertex(Vertex, VertexIterStability) { }
+  void removing_vertex(Vertex) { }
 
   /// Notify the named_graph that we are clearing the graph
   void clearing_graph() { }

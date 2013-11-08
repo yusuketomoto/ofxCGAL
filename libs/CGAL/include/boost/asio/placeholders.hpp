@@ -2,7 +2,7 @@
 // placeholders.hpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,10 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <boost/asio/detail/config.hpp>
-
-#if defined(BOOST_ASIO_HAS_BOOST_BIND)
-# include <boost/bind/arg.hpp>
-#endif // defined(BOOST_ASIO_HAS_BOOST_BIND)
+#include <boost/bind/arg.hpp>
+#include <boost/detail/workaround.hpp>
 
 #include <boost/asio/detail/push_options.hpp>
 
@@ -49,8 +47,7 @@ unspecified iterator;
 /// boost::asio::signal_set::async_wait.
 unspecified signal_number;
 
-#elif defined(BOOST_ASIO_HAS_BOOST_BIND)
-# if defined(__BORLANDC__) || defined(__GNUC__)
+#elif defined(__BORLANDC__) || defined(__GNUC__)
 
 inline boost::arg<1> error()
 {
@@ -72,7 +69,7 @@ inline boost::arg<2> signal_number()
   return boost::arg<2>();
 }
 
-# else
+#else
 
 namespace detail
 {
@@ -87,7 +84,7 @@ namespace detail
   };
 }
 
-#  if defined(BOOST_ASIO_MSVC) && (BOOST_ASIO_MSVC < 1400)
+#if BOOST_WORKAROUND(BOOST_MSVC, < 1400)
 
 static boost::arg<1>& error
   = boost::asio::placeholders::detail::placeholder<1>::get();
@@ -98,7 +95,7 @@ static boost::arg<2>& iterator
 static boost::arg<2>& signal_number
   = boost::asio::placeholders::detail::placeholder<2>::get();
 
-#  else
+#else
 
 namespace
 {
@@ -112,8 +109,8 @@ namespace
     = boost::asio::placeholders::detail::placeholder<2>::get();
 } // namespace
 
-#  endif
-# endif
+#endif
+
 #endif
 
 } // namespace placeholders

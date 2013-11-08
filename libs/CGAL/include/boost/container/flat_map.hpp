@@ -22,14 +22,13 @@
 #include <utility>
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <boost/container/detail/flat_tree.hpp>
 #include <boost/type_traits/has_trivial_destructor.hpp>
 #include <boost/container/detail/mpl.hpp>
 #include <boost/container/allocator_traits.hpp>
-#include <boost/container/throw_exception.hpp>
 #include <boost/move/utility.hpp>
 #include <boost/move/detail/move_helpers.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
 
 namespace boost {
 namespace container {
@@ -479,7 +478,7 @@ class flat_map
    {
       iterator i = this->find(k);
       if(i == this->end()){
-         throw_out_of_range("flat_map::at key not found");
+         throw std::out_of_range("key not found");
       }
       return i->second;
    }
@@ -493,7 +492,7 @@ class flat_map
    {
       const_iterator i = this->find(k);
       if(i == this->end()){
-         throw_out_of_range("flat_map::at key not found");
+         throw std::out_of_range("key not found");
       }
       return i->second;
    }

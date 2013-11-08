@@ -35,8 +35,7 @@ class voronoi_predicates {
 
   enum {
     ULPS = 64,
-    ULPSx2 = 128,
-    ULPSx5 = 320
+    ULPSx2 = 128
   };
 
   template <typename Point>
@@ -161,21 +160,21 @@ class voronoi_predicates {
 
     bool operator()(const site_type& lhs, const circle_type& rhs) const {
       typename ulp_cmp_type::Result xCmp =
-          ulp_cmp(to_fpt(lhs.x()), to_fpt(rhs.lower_x()), ULPSx5);
+          ulp_cmp(to_fpt(lhs.x()), to_fpt(rhs.lower_x()), ULPS);
       if (xCmp != ulp_cmp_type::EQUAL)
         return xCmp == ulp_cmp_type::LESS;
       typename ulp_cmp_type::Result yCmp =
-          ulp_cmp(to_fpt(lhs.y()), to_fpt(rhs.lower_y()), ULPSx5);
+          ulp_cmp(to_fpt(lhs.y()), to_fpt(rhs.lower_y()), ULPS);
       return yCmp == ulp_cmp_type::LESS;
     }
 
     bool operator()(const circle_type& lhs, const site_type& rhs) const {
       typename ulp_cmp_type::Result xCmp =
-          ulp_cmp(to_fpt(lhs.lower_x()), to_fpt(rhs.x()), ULPSx5);
+          ulp_cmp(to_fpt(lhs.lower_x()), to_fpt(rhs.x()), ULPS);
       if (xCmp != ulp_cmp_type::EQUAL)
         return xCmp == ulp_cmp_type::LESS;
       typename ulp_cmp_type::Result yCmp =
-          ulp_cmp(to_fpt(lhs.lower_y()), to_fpt(rhs.y()), ULPSx5);
+          ulp_cmp(to_fpt(lhs.lower_y()), to_fpt(rhs.y()), ULPS);
       return yCmp == ulp_cmp_type::LESS;
     }
 

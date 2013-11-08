@@ -25,7 +25,7 @@ namespace boost
   template <typename Lockable>
   bool is_locked_by_this_thread(testable_mutex<Lockable> const& mtx)
   {
-    return mtx.is_locked_by_this_thread();
+    return mtx.is_locked();
   }
   template <typename Lockable>
   bool is_locked_by_this_thread(Lockable const&)

@@ -2,7 +2,7 @@
 // detail/handler_alloc_helpers.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,7 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <boost/asio/detail/config.hpp>
-#include <boost/asio/detail/addressof.hpp>
+#include <boost/detail/workaround.hpp>
+#include <boost/utility/addressof.hpp>
 #include <boost/asio/detail/noncopyable.hpp>
 #include <boost/asio/handler_alloc_hook.hpp>
 
@@ -30,22 +31,24 @@ namespace boost_asio_handler_alloc_helpers {
 template <typename Handler>
 inline void* allocate(std::size_t s, Handler& h)
 {
-#if !defined(BOOST_ASIO_HAS_HANDLER_HOOKS)
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) \
+  || BOOST_WORKAROUND(__GNUC__, < 3)
   return ::operator new(s);
 #else
   using boost::asio::asio_handler_allocate;
-  return asio_handler_allocate(s, boost::asio::detail::addressof(h));
+  return asio_handler_allocate(s, boost::addressof(h));
 #endif
 }
 
 template <typename Handler>
 inline void deallocate(void* p, std::size_t s, Handler& h)
 {
-#if !defined(BOOST_ASIO_HAS_HANDLER_HOOKS)
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) \
+  || BOOST_WORKAROUND(__GNUC__, < 3)
   ::operator delete(p);
 #else
   using boost::asio::asio_handler_deallocate;
-  asio_handler_deallocate(p, s, boost::asio::detail::addressof(h));
+  asio_handler_deallocate(p, s, boost::addressof(h));
 #endif
 }
 

@@ -95,7 +95,7 @@ namespace boost
               detail::win32::release_semaphore(semaphores[exclusive_sem],LONG_MAX);
               boost::throw_exception(thread_resource_error());
             }
-            state_data state_={0,0,0,0,0,0};
+            state_data state_={0};
             state=state_;
         }
 
@@ -133,11 +133,7 @@ namespace boost
 
         void lock_shared()
         {
-#if defined BOOST_THREAD_USES_DATETIME
             BOOST_VERIFY(timed_lock_shared(::boost::detail::get_system_time_sentinel()));
-#else
-            BOOST_VERIFY(try_lock_shared_until(chrono::steady_clock::now()));
-#endif
         }
 
 #if defined BOOST_THREAD_USES_DATETIME
@@ -383,20 +379,14 @@ namespace boost
 
         void lock()
         {
-#if defined BOOST_THREAD_USES_DATETIME
             BOOST_VERIFY(timed_lock(::boost::detail::get_system_time_sentinel()));
-#else
-            BOOST_VERIFY(try_lock_until(chrono::steady_clock::now()));
-#endif
         }
 
-#if defined BOOST_THREAD_USES_DATETIME
         template<typename TimeDuration>
         bool timed_lock(TimeDuration const & relative_time)
         {
             return timed_lock(get_system_time()+relative_time);
         }
-#endif
 
         bool try_lock()
         {
@@ -424,7 +414,6 @@ namespace boost
         }
 
 
-#if defined BOOST_THREAD_USES_DATETIME
         bool timed_lock(boost::system_time const& wait_until)
         {
             for(;;)
@@ -471,7 +460,6 @@ namespace boost
                 {
                     for(;;)
                     {
-                        bool must_notify = false;
                         state_data new_state=old_state;
                         if(new_state.shared_count || new_state.exclusive)
                         {
@@ -480,7 +468,6 @@ namespace boost
                                 if(!--new_state.exclusive_waiting)
                                 {
                                     new_state.exclusive_waiting_blocked=false;
-                                    must_notify = true;
                                 }
                             }
                         }
@@ -490,11 +477,6 @@ namespace boost
                         }
 
                         state_data const current_state=interlocked_compare_exchange(&state,new_state,old_state);
-                        if (must_notify)
-                        {
-                          BOOST_VERIFY(detail::win32::ReleaseSemaphore(semaphores[unlock_sem],1,0)!=0);
-                        }
-
                         if(current_state==old_state)
                         {
                             break;
@@ -510,7 +492,7 @@ namespace boost
                 BOOST_ASSERT(wait_res<2);
             }
         }
-#endif
+
 #ifdef BOOST_THREAD_USES_CHRONO
         template <class Rep, class Period>
         bool try_lock_for(const chrono::duration<Rep, Period>& rel_time)
@@ -587,7 +569,6 @@ namespace boost
             {
               for(;;)
               {
-                bool must_notify = false;
                 state_data new_state=old_state;
                 if(new_state.shared_count || new_state.exclusive)
                 {
@@ -596,7 +577,6 @@ namespace boost
                     if(!--new_state.exclusive_waiting)
                     {
                       new_state.exclusive_waiting_blocked=false;
-                      must_notify = true;
                     }
                   }
                 }
@@ -606,10 +586,6 @@ namespace boost
                 }
 
                 state_data const current_state=interlocked_compare_exchange(&state,new_state,old_state);
-                if (must_notify)
-                {
-                  BOOST_VERIFY(detail::win32::ReleaseSemaphore(semaphores[unlock_sem],1,0)!=0);
-                }
                 if(current_state==old_state)
                 {
                   break;
@@ -749,11 +725,9 @@ namespace boost
                     if(last_reader)
                     {
                         release_waiters(old_state);
+                    } else {
+                        release_waiters(old_state);
                     }
-                    // #7720
-                    //else {
-                    //    release_waiters(old_state);
-                    //}
                     break;
                 }
                 old_state=current_state;

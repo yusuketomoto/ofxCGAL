@@ -1,5 +1,4 @@
 //  Copyright (c) 2011 Helge Bahmann
-//  Copyright (c) 2013 Tim Blechmann
 //
 //  Distributed under the Boost Software License, Version 1.0.
 //  See accompanying file LICENSE_1_0.txt or copy at
@@ -102,17 +101,16 @@ platform_cmpxchg32_strong(T & expected, T desired, volatile T * ptr)
     return success;
 }
 
-class atomic_flag
-{
+class atomic_flag {
 private:
     atomic_flag(const atomic_flag &) /* = delete */ ;
     atomic_flag & operator=(const atomic_flag &) /* = delete */ ;
     uint32_t v_;
 public:
-    BOOST_CONSTEXPR atomic_flag(void) BOOST_NOEXCEPT : v_(0) {}
+    atomic_flag(void) : v_(false) {}
 
     void
-    clear(memory_order order = memory_order_seq_cst) volatile BOOST_NOEXCEPT
+    clear(memory_order order = memory_order_seq_cst) volatile
     {
         atomics::detail::platform_fence_before_store(order);
         const_cast<volatile uint32_t &>(v_) = 0;
@@ -120,7 +118,7 @@ public:
     }
 
     bool
-    test_and_set(memory_order order = memory_order_seq_cst) volatile BOOST_NOEXCEPT
+    test_and_set(memory_order order = memory_order_seq_cst) volatile
     {
         atomics::detail::platform_fence_before(order);
         uint32_t expected = v_;

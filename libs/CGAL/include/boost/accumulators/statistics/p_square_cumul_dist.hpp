@@ -13,7 +13,6 @@
 #include <boost/parameter/keyword.hpp>
 #include <boost/range.hpp>
 #include <boost/mpl/placeholders.hpp>
-#include <boost/accumulators/accumulators_fwd.hpp>
 #include <boost/accumulators/framework/accumulator_base.hpp>
 #include <boost/accumulators/framework/extractor.hpp>
 #include <boost/accumulators/numeric/functional.hpp>
@@ -27,8 +26,6 @@ namespace boost { namespace accumulators
 // num_cells named parameter
 //
 BOOST_PARAMETER_NESTED_KEYWORD(tag, p_square_cumulative_distribution_num_cells, num_cells)
-
-BOOST_ACCUMULATORS_IGNORE_GLOBAL(p_square_cumulative_distribution_num_cells)
 
 namespace impl
 {
@@ -44,7 +41,7 @@ namespace impl
 
         For further details, see
 
-        R. Jain and I. Chlamtac, The P^2 algorithm for dynamic calculation of quantiles and
+        R. Jain and I. Chlamtac, The P^2 algorithmus for dynamic calculation of quantiles and
         histograms without storing observations, Communications of the ACM,
         Volume 28 (October), Number 10, 1985, p. 1076-1085.
 

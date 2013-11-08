@@ -17,7 +17,6 @@
 
 #include <cstddef>
 
-#include <boost/concept_check.hpp>
 #include <boost/range.hpp>
 #include <boost/typeof/typeof.hpp>
 
@@ -66,7 +65,6 @@ struct point_in_ring
     static inline int apply(Point const& point, Ring const& ring,
             Strategy const& strategy)
     {
-        boost::ignore_unused_variable_warning(strategy);
         if (int(boost::size(ring))
                 < core_detail::closure::minimum_ring_size<Closure>::value)
         {
@@ -182,7 +180,6 @@ struct within<Point, Box, point_tag, box_tag>
     template <typename Strategy>
     static inline bool apply(Point const& point, Box const& box, Strategy const& strategy)
     {
-        boost::ignore_unused_variable_warning(strategy);
         return strategy.apply(point, box);
     }
 };
@@ -194,7 +191,6 @@ struct within<Box1, Box2, box_tag, box_tag>
     static inline bool apply(Box1 const& box1, Box2 const& box2, Strategy const& strategy)
     {
         assert_dimension_equal<Box1, Box2>();
-        boost::ignore_unused_variable_warning(strategy);
         return strategy.apply(box1, box2);
     }
 };

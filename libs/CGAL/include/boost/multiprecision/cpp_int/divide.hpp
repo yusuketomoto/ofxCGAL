@@ -82,7 +82,7 @@ void divide_unsigned_helper(
    if((r_order == 0) && (*px == 0))
    {
       // x is zero, so is the result:
-      r = x;
+      r = y;
       if(result)
          *result = x;
       return;
@@ -114,9 +114,7 @@ void divide_unsigned_helper(
    if(r_order == 0)
    {
       if(result)
-      {
          *result = px[0] / py[0];
-      }
       r = px[0] % py[0];
       return;
    }
@@ -128,9 +126,7 @@ void divide_unsigned_helper(
          (static_cast<double_limb_type>(py[1]) << CppInt1::limb_bits) | py[0] 
          : py[0];
       if(result)
-      {
          *result = a / b;
-      }
       r = a % b;
       return;
    }
@@ -336,6 +332,11 @@ void divide_unsigned_helper(
    r.sign(false);
    typename CppInt1::limb_pointer pr = r.limbs();
 
+   if((r_order == 0) && (*pr == 0))
+   {
+      // All the limbs in x are zero, so is the result:
+      return;
+   }
    //
    // check for x < y, try to do this without actually having to 
    // do a full comparison:
@@ -445,9 +446,8 @@ BOOST_MP_FORCEINLINE typename enable_if_c<!is_trivial_cpp_int<cpp_int_backend<Mi
       const cpp_int_backend<MinBits3, MaxBits3, SignType3, Checked3, Allocator3>& b)
 {
    cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1> r;
-   bool s = a.sign() != b.sign();
    divide_unsigned_helper(&result, a, b, r);
-   result.sign(s);
+   result.sign(a.sign() != b.sign());
 }
 
 template <unsigned MinBits1, unsigned MaxBits1, cpp_integer_type SignType1, cpp_int_check_type Checked1, class Allocator1, unsigned MinBits2, unsigned MaxBits2, cpp_integer_type SignType2, cpp_int_check_type Checked2, class Allocator2>
@@ -458,9 +458,7 @@ BOOST_MP_FORCEINLINE typename enable_if_c<!is_trivial_cpp_int<cpp_int_backend<Mi
       limb_type& b)
 {
    cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1> r;
-   bool s = a.sign();
    divide_unsigned_helper(&result, a, b, r);
-   result.sign(s);
 }
 
 template <unsigned MinBits1, unsigned MaxBits1, cpp_integer_type SignType1, cpp_int_check_type Checked1, class Allocator1, unsigned MinBits2, unsigned MaxBits2, cpp_integer_type SignType2, cpp_int_check_type Checked2, class Allocator2>
@@ -471,9 +469,9 @@ BOOST_MP_FORCEINLINE typename enable_if_c<!is_trivial_cpp_int<cpp_int_backend<Mi
       signed_limb_type& b)
 {
    cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1> r;
-   bool s = a.sign() != (b < 0);
    divide_unsigned_helper(&result, a, static_cast<limb_type>(std::abs(b)), r);
-   result.sign(s);
+   if(b < 0)
+      result.negate();
 }
 
 template <unsigned MinBits1, unsigned MaxBits1, cpp_integer_type SignType1, cpp_int_check_type Checked1, class Allocator1, unsigned MinBits2, unsigned MaxBits2, cpp_integer_type SignType2, cpp_int_check_type Checked2, class Allocator2>
@@ -516,9 +514,8 @@ BOOST_MP_FORCEINLINE typename enable_if_c<!is_trivial_cpp_int<cpp_int_backend<Mi
       const cpp_int_backend<MinBits2, MaxBits2, SignType2, Checked2, Allocator2>& a, 
       const cpp_int_backend<MinBits3, MaxBits3, SignType3, Checked3, Allocator3>& b)
 {
-   bool s = a.sign();
    divide_unsigned_helper(static_cast<cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1>* >(0), a, b, result);
-   result.sign(s);
+   result.sign(a.sign());
 }
 
 template <unsigned MinBits1, unsigned MaxBits1, cpp_integer_type SignType1, cpp_int_check_type Checked1, class Allocator1, unsigned MinBits2, unsigned MaxBits2, cpp_integer_type SignType2, cpp_int_check_type Checked2, class Allocator2>
@@ -527,9 +524,7 @@ BOOST_MP_FORCEINLINE typename enable_if_c<!is_trivial_cpp_int<cpp_int_backend<Mi
       cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1>& result, 
       const cpp_int_backend<MinBits2, MaxBits2, SignType2, Checked2, Allocator2>& a, limb_type b)
 {
-   bool s = a.sign();
    divide_unsigned_helper(static_cast<cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1>* >(0), a, b, result);
-   result.sign(s);
 }
 
 template <unsigned MinBits1, unsigned MaxBits1, cpp_integer_type SignType1, cpp_int_check_type Checked1, class Allocator1, unsigned MinBits2, unsigned MaxBits2, cpp_integer_type SignType2, cpp_int_check_type Checked2, class Allocator2>
@@ -539,9 +534,7 @@ BOOST_MP_FORCEINLINE typename enable_if_c<!is_trivial_cpp_int<cpp_int_backend<Mi
       const cpp_int_backend<MinBits2, MaxBits2, SignType2, Checked2, Allocator2>& a, 
       signed_limb_type b)
 {
-   bool s = a.sign();
    divide_unsigned_helper(static_cast<cpp_int_backend<MinBits1, MaxBits1, SignType1, Checked1, Allocator1>* >(0), a, static_cast<limb_type>(std::abs(b)), result);
-   result.sign(s);
 }
 
 template <unsigned MinBits1, unsigned MaxBits1, cpp_integer_type SignType1, cpp_int_check_type Checked1, class Allocator1, unsigned MinBits2, unsigned MaxBits2, cpp_integer_type SignType2, cpp_int_check_type Checked2, class Allocator2>

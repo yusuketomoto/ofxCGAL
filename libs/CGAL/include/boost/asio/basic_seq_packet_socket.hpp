@@ -2,7 +2,7 @@
 // basic_seq_packet_socket.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -171,51 +171,6 @@ public:
         BOOST_ASIO_MOVE_CAST(basic_seq_packet_socket)(other));
     return *this;
   }
-
-  /// Move-construct a basic_seq_packet_socket from a socket of another protocol
-  /// type.
-  /**
-   * This constructor moves a sequenced packet socket from one object to
-   * another.
-   *
-   * @param other The other basic_seq_packet_socket object from which the move
-   * will occur.
-   *
-   * @note Following the move, the moved-from object is in the same state as if
-   * constructed using the @c basic_seq_packet_socket(io_service&) constructor.
-   */
-  template <typename Protocol1, typename SeqPacketSocketService1>
-  basic_seq_packet_socket(
-      basic_seq_packet_socket<Protocol1, SeqPacketSocketService1>&& other,
-      typename enable_if<is_convertible<Protocol1, Protocol>::value>::type* = 0)
-    : basic_socket<Protocol, SeqPacketSocketService>(
-        BOOST_ASIO_MOVE_CAST2(basic_seq_packet_socket<
-          Protocol1, SeqPacketSocketService1>)(other))
-  {
-  }
-
-  /// Move-assign a basic_seq_packet_socket from a socket of another protocol
-  /// type.
-  /**
-   * This assignment operator moves a sequenced packet socket from one object to
-   * another.
-   *
-   * @param other The other basic_seq_packet_socket object from which the move
-   * will occur.
-   *
-   * @note Following the move, the moved-from object is in the same state as if
-   * constructed using the @c basic_seq_packet_socket(io_service&) constructor.
-   */
-  template <typename Protocol1, typename SeqPacketSocketService1>
-  typename enable_if<is_convertible<Protocol1, Protocol>::value,
-      basic_seq_packet_socket>::type& operator=(
-        basic_seq_packet_socket<Protocol1, SeqPacketSocketService1>&& other)
-  {
-    basic_socket<Protocol, SeqPacketSocketService>::operator=(
-        BOOST_ASIO_MOVE_CAST2(basic_seq_packet_socket<
-          Protocol1, SeqPacketSocketService1>)(other));
-    return *this;
-  }
 #endif // defined(BOOST_ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
 
   /// Send some data on the socket.
@@ -312,9 +267,7 @@ public:
    * std::vector.
    */
   template <typename ConstBufferSequence, typename WriteHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(WriteHandler,
-      void (boost::system::error_code, std::size_t))
-  async_send(const ConstBufferSequence& buffers,
+  void async_send(const ConstBufferSequence& buffers,
       socket_base::message_flags flags,
       BOOST_ASIO_MOVE_ARG(WriteHandler) handler)
   {
@@ -322,7 +275,7 @@ public:
     // not meet the documented type requirements for a WriteHandler.
     BOOST_ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;
 
-    return this->get_service().async_send(this->get_implementation(),
+    this->get_service().async_send(this->get_implementation(),
         buffers, flags, BOOST_ASIO_MOVE_CAST(WriteHandler)(handler));
   }
 
@@ -484,9 +437,7 @@ public:
    * std::vector.
    */
   template <typename MutableBufferSequence, typename ReadHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
-      void (boost::system::error_code, std::size_t))
-  async_receive(const MutableBufferSequence& buffers,
+  void async_receive(const MutableBufferSequence& buffers,
       socket_base::message_flags& out_flags,
       BOOST_ASIO_MOVE_ARG(ReadHandler) handler)
   {
@@ -494,9 +445,8 @@ public:
     // not meet the documented type requirements for a ReadHandler.
     BOOST_ASIO_READ_HANDLER_CHECK(ReadHandler, handler) type_check;
 
-    return this->get_service().async_receive(
-        this->get_implementation(), buffers, 0, out_flags,
-        BOOST_ASIO_MOVE_CAST(ReadHandler)(handler));
+    this->get_service().async_receive(this->get_implementation(), buffers,
+        0, out_flags, BOOST_ASIO_MOVE_CAST(ReadHandler)(handler));
   }
 
   /// Start an asynchronous receive.
@@ -542,9 +492,7 @@ public:
    * std::vector.
    */
   template <typename MutableBufferSequence, typename ReadHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
-      void (boost::system::error_code, std::size_t))
-  async_receive(const MutableBufferSequence& buffers,
+  void async_receive(const MutableBufferSequence& buffers,
       socket_base::message_flags in_flags,
       socket_base::message_flags& out_flags,
       BOOST_ASIO_MOVE_ARG(ReadHandler) handler)
@@ -553,9 +501,8 @@ public:
     // not meet the documented type requirements for a ReadHandler.
     BOOST_ASIO_READ_HANDLER_CHECK(ReadHandler, handler) type_check;
 
-    return this->get_service().async_receive(
-        this->get_implementation(), buffers, in_flags, out_flags,
-        BOOST_ASIO_MOVE_CAST(ReadHandler)(handler));
+    this->get_service().async_receive(this->get_implementation(), buffers,
+        in_flags, out_flags, BOOST_ASIO_MOVE_CAST(ReadHandler)(handler));
   }
 };
 

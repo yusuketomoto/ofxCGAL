@@ -9,7 +9,6 @@
 #define BOOST_MATH_SPECIAL_ROUND_FWD_HPP
 
 #include <boost/config.hpp>
-#include <boost/math/tools/promotion.hpp>
 
 #ifdef _MSC_VER
 #pragma once
@@ -21,9 +20,9 @@ namespace boost
    { 
 
    template <class T, class Policy>
-   typename tools::promote_args<T>::type trunc(const T& v, const Policy& pol);
+   T trunc(const T& v, const Policy& pol);
    template <class T>
-   typename tools::promote_args<T>::type trunc(const T& v);
+   T trunc(const T& v);
    template <class T, class Policy>
    int itrunc(const T& v, const Policy& pol);
    template <class T>
@@ -39,9 +38,9 @@ namespace boost
    boost::long_long_type lltrunc(const T& v);
 #endif
    template <class T, class Policy>
-   typename tools::promote_args<T>::type round(const T& v, const Policy& pol);
+   T round(const T& v, const Policy& pol);
    template <class T>
-   typename tools::promote_args<T>::type round(const T& v);
+   T round(const T& v);
    template <class T, class Policy>
    int iround(const T& v, const Policy& pol);
    template <class T>
@@ -77,17 +76,5 @@ namespace boost
 
    }
 }
-
-#undef BOOST_MATH_STD_USING
-#define BOOST_MATH_STD_USING BOOST_MATH_STD_USING_CORE\
-   using boost::math::round;\
-   using boost::math::iround;\
-   using boost::math::lround;\
-   using boost::math::trunc;\
-   using boost::math::itrunc;\
-   using boost::math::ltrunc;\
-   using boost::math::modf;
-
-
 #endif // BOOST_MATH_SPECIAL_ROUND_FWD_HPP
 

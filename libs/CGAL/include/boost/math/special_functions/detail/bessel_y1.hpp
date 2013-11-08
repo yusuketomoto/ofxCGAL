@@ -172,19 +172,19 @@ T bessel_y1(T x, const Policy& pol)
         T y2 = y * y;
         rc = evaluate_rational(PC, QC, y2);
         rs = evaluate_rational(PS, QS, y2);
-        factor = 1 / (sqrt(x) * root_pi<T>());
+        factor = sqrt(2 / (x * pi<T>()));
         //
         // This code is really just:
         //
         // T z = x - 0.75f * pi<T>();
         // value = factor * (rc * sin(z) + y * rs * cos(z));
         //
-        // But using the sin/cos addition rules, plus constants for sin/cos of 3PI/4
-        // which then cancel out with corresponding terms in "factor".
+        // But using the sin/cos addition rules, plus constants for sin/cos of 3PI/4:
         //
         T sx = sin(x);
         T cx = cos(x);
-        value = factor * (y * rs * (sx - cx) - rc * (sx + cx));
+        value = factor * (rc * (sx * -constants::one_div_root_two<T>() - cx * constants::half_root_two<T>()) 
+           + y * rs * (cx * -constants::one_div_root_two<T>() + sx * constants::half_root_two<T>()));
     }
 
     return value;

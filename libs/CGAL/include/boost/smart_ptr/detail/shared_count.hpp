@@ -200,7 +200,7 @@ public:
         }
         catch( ... )
         {
-            D::operator_fn( p ); // delete p
+            D()( p ); // delete p
             throw;
         }
 
@@ -210,7 +210,7 @@ public:
 
         if( pi_ == 0 )
         {
-            D::operator_fn( p ); // delete p
+            D()( p ); // delete p
             boost::throw_exception( std::bad_alloc() );
         }
 
@@ -286,7 +286,7 @@ public:
         }
         catch(...)
         {
-            D::operator_fn( p );
+            D()( p );
 
             if( pi_ != 0 )
             {
@@ -306,7 +306,7 @@ public:
         }
         else
         {
-            D::operator_fn( p );
+            D()( p );
             boost::throw_exception( std::bad_alloc() );
         }
 

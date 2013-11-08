@@ -59,7 +59,7 @@ inline void debug_traverse(Turn const& turn, Operation op,
     }
 }
 #else
-inline void debug_traverse(Turn const& , Operation, const char*)
+inline void debug_traverse(Turn const& , Operation, std::string const& )
 {
 }
 #endif
@@ -365,10 +365,7 @@ public :
                                                 "Dead end",
                                                 geometry1, geometry2, state);
                                         }
-                                        else
-                                        {
-                                            detail::overlay::debug_traverse(*current, *current_iit, "Selected  ");
-                                        }
+                                        detail::overlay::debug_traverse(*current, *current_iit, "Selected  ");
 
                                         if (i++ > 2 + 2 * turns.size())
                                         {

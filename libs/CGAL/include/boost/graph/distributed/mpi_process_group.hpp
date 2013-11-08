@@ -416,7 +416,7 @@ public:
 
   void synchronize() const;
 
-  operator bool() { return bool(impl_); }
+  operator bool() { return impl_; }
 
   mpi_process_group base() const;
 

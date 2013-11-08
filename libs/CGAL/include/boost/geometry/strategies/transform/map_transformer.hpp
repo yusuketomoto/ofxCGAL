@@ -19,14 +19,9 @@
 
 #include <boost/geometry/strategies/transform/matrix_transformers.hpp>
 
+
 namespace boost { namespace geometry
 {
-
-// Silence warning C4127: conditional expression is constant
-#if defined(_MSC_VER)
-#pragma warning(push)  
-#pragma warning(disable : 4127)  
-#endif
 
 namespace strategy { namespace transform
 {
@@ -163,9 +158,6 @@ private :
 
 }} // namespace strategy::transform
 
-#if defined(_MSC_VER)
-#pragma warning(pop)  
-#endif
 
 }} // namespace boost::geometry
 

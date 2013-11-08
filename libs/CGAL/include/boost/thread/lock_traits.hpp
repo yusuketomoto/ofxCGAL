@@ -26,7 +26,7 @@ namespace boost
  * An strict lock is a lock ensuring the mutex is locked on the scope of the lock
  * There is no single way to define a strict lock as the strict_lock and
  * nesteed_strict_lock shows. So we need a metafunction that states if a
- * lock is a strict lock "sur parole".
+ * lock is a strict lock "sur parolle".
  */
 
 template <typename Lock>
@@ -34,10 +34,7 @@ struct is_strict_lock_sur_parolle : false_type {};
 
 
 template <typename Lock>
-struct is_strict_lock_sur_parole : is_strict_lock_sur_parolle<Lock> {};
-
-template <typename Lock>
-struct is_strict_lock : is_strict_lock_sur_parole<Lock> {};
+struct is_strict_lock : is_strict_lock_sur_parolle<Lock> {};
 
 }
 #include <boost/config/abi_suffix.hpp>

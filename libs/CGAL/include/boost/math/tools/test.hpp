@@ -15,8 +15,6 @@
 #include <boost/math/special_functions/fpclassify.hpp>
 #include <boost/test/test_tools.hpp>
 #include <stdexcept>
-#include <iostream>
-#include <iomanip>
 
 namespace boost{ namespace math{ namespace tools{
 

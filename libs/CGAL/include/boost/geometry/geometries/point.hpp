@@ -28,12 +28,6 @@
 namespace boost { namespace geometry
 {
 
-// Silence warning C4127: conditional expression is constant
-#if defined(_MSC_VER)
-#pragma warning(push)  
-#pragma warning(disable : 4127)
-#endif
-
 
 namespace model
 {
@@ -178,10 +172,6 @@ struct access<model::point<CoordinateType, DimensionCount, CoordinateSystem>, Di
 
 } // namespace traits
 #endif // DOXYGEN_NO_TRAITS_SPECIALIZATIONS
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif
 
 }} // namespace boost::geometry
 

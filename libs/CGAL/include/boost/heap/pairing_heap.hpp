@@ -375,7 +375,7 @@ public:
 
         node_pointer n = allocator_type::allocate(1);
 
-        new(n) node(super_t::make_node(std::forward<Args>(args)...));
+        new(n) node(super_t::make_node(std::forward<T>(args)...));
 
         merge_node(n);
         return handle_type(n);

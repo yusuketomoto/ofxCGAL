@@ -19,7 +19,6 @@
 #include <string>
 #include <limits>
 #include <climits>
-#include <boost/type_traits/make_unsigned.hpp>
 
 #if (defined BOOST_INTERPROCESS_WINDOWS)
 #  include <boost/interprocess/detail/win32_api.hpp>
@@ -66,9 +65,6 @@ typedef enum { file_begin     = winapi::file_begin
              , file_end       = winapi::file_end
              , file_current   = winapi::file_current
              } file_pos_t;
-
-typedef unsigned long      map_options_t;
-static const map_options_t default_map_options = map_options_t(-1);
 
 namespace ipcdetail{
 
@@ -133,10 +129,10 @@ inline bool truncate_file (file_handle_t hnd, std::size_t size)
    if(!winapi::get_file_size(hnd, filesize))
       return false;
 
-   typedef boost::make_unsigned<offset_t>::type uoffset_t;
-   const uoffset_t max_filesize = uoffset_t((std::numeric_limits<offset_t>::max)());
+   const offset_t max_filesize = (std::numeric_limits<offset_t>::max)();
    //Avoid unused variable warnings in 32 bit systems
-   if(size > max_filesize){
+   (void)max_filesize;
+   if( sizeof(std::size_t) >= sizeof(offset_t) && size > std::size_t(max_filesize) ){
       winapi::set_last_error(winapi::error_file_too_large);
       return false;
    }
@@ -282,7 +278,7 @@ inline bool delete_subdirectories_recursive
                //if(::SetFileAttributes(strFilePath.c_str(), winapi::file_attribute_normal) == 0)
                //return winapi::get_last_error();
                // Delete file
-               winapi::unlink_file(strFilePath.c_str());
+               winapi::delete_file(strFilePath.c_str());
             }
          }
       //Go to the next file
@@ -379,9 +375,6 @@ typedef enum { file_begin     = SEEK_SET
              , file_current   = SEEK_CUR
              } file_pos_t;
 
-typedef int map_options_t;
-static const map_options_t default_map_options = map_options_t(-1);
-
 namespace ipcdetail{
 
 inline mapping_handle_t mapping_handle_from_file_handle(file_handle_t hnd)
@@ -456,10 +449,11 @@ inline bool delete_file(const char *name)
 
 inline bool truncate_file (file_handle_t hnd, std::size_t size)
 {
-   typedef boost::make_unsigned<off_t>::type uoff_t;
-   if(uoff_t((std::numeric_limits<off_t>::max)()) < size){
-      errno = EINVAL;
-      return false;
+   if(sizeof(off_t) == sizeof(std::size_t)){
+      if(size > ((~std::size_t(0)) >> 1)){
+         errno = EINVAL;
+         return false;
+      }
    }
    return 0 == ::ftruncate(hnd, off_t(size));
 }

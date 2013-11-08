@@ -33,9 +33,7 @@
 
 #if defined(__MINGW32__) && ((__MINGW32_MAJOR_VERSION > 2) || ((__MINGW32_MAJOR_VERSION == 2) && (__MINGW32_MINOR_VERSION >= 0)))
 #  define BOOST_HAS_STDINT_H
-#  ifndef __STDC_LIMIT_MACROS
-#     define __STDC_LIMIT_MACROS
-#  endif
+#  define __STDC_LIMIT_MACROS
 #  define BOOST_HAS_DIRENT_H
 #  define BOOST_HAS_UNISTD_H
 #endif

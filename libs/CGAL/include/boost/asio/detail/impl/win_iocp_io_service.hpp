@@ -2,7 +2,7 @@
 // detail/impl/win_iocp_io_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,7 +19,6 @@
 
 #if defined(BOOST_ASIO_HAS_IOCP)
 
-#include <boost/asio/detail/addressof.hpp>
 #include <boost/asio/detail/completion_handler.hpp>
 #include <boost/asio/detail/fenced_block.hpp>
 #include <boost/asio/detail/handler_alloc_helpers.hpp>
@@ -32,7 +31,7 @@ namespace asio {
 namespace detail {
 
 template <typename Handler>
-void win_iocp_io_service::dispatch(Handler& handler)
+void win_iocp_io_service::dispatch(Handler handler)
 {
   if (thread_call_stack::contains(this))
   {
@@ -43,31 +42,31 @@ void win_iocp_io_service::dispatch(Handler& handler)
   {
     // Allocate and construct an operation to wrap the handler.
     typedef completion_handler<Handler> op;
-    typename op::ptr p = { boost::asio::detail::addressof(handler),
+    typename op::ptr p = { boost::addressof(handler),
       boost_asio_handler_alloc_helpers::allocate(
         sizeof(op), handler), 0 };
     p.p = new (p.v) op(handler);
 
     BOOST_ASIO_HANDLER_CREATION((p.p, "io_service", this, "dispatch"));
 
-    post_immediate_completion(p.p, false);
+    post_immediate_completion(p.p);
     p.v = p.p = 0;
   }
 }
 
 template <typename Handler>
-void win_iocp_io_service::post(Handler& handler)
+void win_iocp_io_service::post(Handler handler)
 {
   // Allocate and construct an operation to wrap the handler.
   typedef completion_handler<Handler> op;
-  typename op::ptr p = { boost::asio::detail::addressof(handler),
+  typename op::ptr p = { boost::addressof(handler),
     boost_asio_handler_alloc_helpers::allocate(
       sizeof(op), handler), 0 };
   p.p = new (p.v) op(handler);
 
   BOOST_ASIO_HANDLER_CREATION((p.p, "io_service", this, "post"));
 
-  post_immediate_completion(p.p, false);
+  post_immediate_completion(p.p);
   p.v = p.p = 0;
 }
 
@@ -93,7 +92,7 @@ void win_iocp_io_service::schedule_timer(timer_queue<Time_Traits>& queue,
   // If the service has been shut down we silently discard the timer.
   if (::InterlockedExchangeAdd(&shutdown_, 0) != 0)
   {
-    post_immediate_completion(op, false);
+    post_immediate_completion(op);
     return;
   }
 

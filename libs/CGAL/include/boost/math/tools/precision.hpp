@@ -18,6 +18,8 @@
 #include <boost/mpl/if.hpp>
 #include <boost/math/policies/policy.hpp>
 
+#include <iostream>
+#include <iomanip>
 // These two are for LDBL_MAN_DIG:
 #include <limits.h>
 #include <math.h>

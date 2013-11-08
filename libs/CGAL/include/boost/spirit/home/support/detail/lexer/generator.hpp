@@ -12,7 +12,6 @@
 #include "partition/charset.hpp"
 #include "partition/equivset.hpp"
 #include <memory>
-#include <limits>
 #include "parser/tree/node.hpp"
 #include "parser/parser.hpp"
 #include "containers/ptr_list.hpp"
@@ -561,7 +560,7 @@ protected:
 
         if (token_._negated)
         {
-            CharT curr_char_ = (std::numeric_limits<CharT>::min)();
+            CharT curr_char_ = sizeof (CharT) == 1 ? -128 : 0;
             std::size_t i_ = 0;
 
             while (curr_ < chars_end_)

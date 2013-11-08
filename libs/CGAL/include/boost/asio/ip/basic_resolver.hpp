@@ -2,7 +2,7 @@
 // ip/basic_resolver.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -153,9 +153,7 @@ public:
    * the handler.
    */
   template <typename ResolveHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(ResolveHandler,
-      void (boost::system::error_code, iterator))
-  async_resolve(const query& q,
+  void async_resolve(const query& q,
       BOOST_ASIO_MOVE_ARG(ResolveHandler) handler)
   {
     // If you get an error on the following line it means that your handler does
@@ -246,9 +244,7 @@ public:
    * the handler.
    */
   template <typename ResolveHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(ResolveHandler,
-      void (boost::system::error_code, iterator))
-  async_resolve(const endpoint_type& e,
+  void async_resolve(const endpoint_type& e,
       BOOST_ASIO_MOVE_ARG(ResolveHandler) handler)
   {
     // If you get an error on the following line it means that your handler does

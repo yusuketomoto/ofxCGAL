@@ -109,8 +109,6 @@ class reverse_graph {
 
     // Constructor
     reverse_graph(GraphRef g) : m_g(g) {}
-    // Conversion from reverse_graph on non-const reference to one on const reference
-    reverse_graph(const reverse_graph<BidirectionalGraph, BidirectionalGraph&>& o): m_g(o.m_g) {}
 
     // Graph requirements
     typedef typename Traits::vertex_descriptor vertex_descriptor;
@@ -366,12 +364,7 @@ namespace detail {
 template <class BidirGraph, class GRef, class Property>
 struct property_map<reverse_graph<BidirGraph, GRef>, Property> {
   typedef boost::is_same<typename detail::property_kind_from_graph<BidirGraph, Property>::type, edge_property_tag> is_edge_prop;
-  typedef boost::is_const<typename boost::remove_reference<GRef>::type> is_ref_const;
-  typedef typename boost::mpl::if_<
-                     is_ref_const,
-                     typename property_map<BidirGraph, Property>::const_type,
-                     typename property_map<BidirGraph, Property>::type>::type
-    orig_type;
+  typedef typename property_map<BidirGraph, Property>::type orig_type;
   typedef typename property_map<BidirGraph, Property>::const_type orig_const_type;
   typedef typename boost::mpl::if_<is_edge_prop, detail::reverse_graph_edge_property_map<orig_type>, orig_type>::type type;
   typedef typename boost::mpl::if_<is_edge_prop, detail::reverse_graph_edge_property_map<orig_const_type>, orig_const_type>::type const_type;

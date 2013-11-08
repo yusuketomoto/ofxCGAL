@@ -2,7 +2,7 @@
 // windows/basic_object_handle.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2011 Boris Schaeling (boris@highscore.de)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -159,12 +159,9 @@ public:
    * boost::asio::io_service::post().
    */
   template <typename WaitHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(WaitHandler,
-      void (boost::system::error_code))
-  async_wait(BOOST_ASIO_MOVE_ARG(WaitHandler) handler)
+  void async_wait(WaitHandler handler)
   {
-    return this->get_service().async_wait(this->get_implementation(),
-        BOOST_ASIO_MOVE_CAST(WaitHandler)(handler));
+    this->get_service().async_wait(this->get_implementation(), handler);
   }
 };
 
