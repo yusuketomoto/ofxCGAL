@@ -41,7 +41,6 @@ namespace ofxCGAL
     
     typedef CGAL::Point_with_normal_3<Kernel> Point_with_normal;
     typedef std::vector<Point_with_normal> PointWNList;
-//    typedef std::vector<PointWN> PointWNList; // Cloud of points 3D with normal
     
     typedef Kernel::Sphere_3 Sphere_3;
     typedef CGAL::Polyhedron_3<Kernel> Polyhedron_3;

@@ -4,6 +4,7 @@
 #undef check
 #endif
 
+#include "ofxCGAL/Utility.h"
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/IO/read_xyz_points.h>
 #include <CGAL/IO/read_off_points.h>
@@ -20,6 +21,6 @@ inline vector<T> loadXyz(const string& file_name)
     return points;
 }
 
+ofMesh loadXyz(const string& file_name);
 
-    
 }
