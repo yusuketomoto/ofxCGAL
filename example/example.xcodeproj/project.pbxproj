@@ -31446,10 +31446,10 @@
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../../addons/ofxCGAL/src,
-					../../../addons/ofxCGAL/libs/ofxCGAL/include,
-					../../../addons/ofxCGAL/libs/CGAL/include,
-					../../../addons/ofxCGAL/libs/CGAL/include/eigen3,
+					$(SRC_ROOT)../../../addons/ofxCGAL/src,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/ofxCGAL/include,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/include,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/include/eigen3,
 				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
@@ -31518,9 +31518,9 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
-					/Users/Koma/Documents/openFrameworks/of_v0.8.0_osx_release/addons/ofxCGAL/libs/CGAL/lib/osx/boost,
-					/Users/Koma/Documents/openFrameworks/of_v0.8.0_osx_release/addons/ofxCGAL/libs/CGAL/lib/osx/CGAL,
-					/Users/Koma/Documents/openFrameworks/of_v0.8.0_osx_release/addons/ofxCGAL/libs/CGAL/lib/osx,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/lib/osx/boost,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/lib/osx/CGAL,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/lib/osx,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
 				WRAPPER_EXTENSION = app;
@@ -31542,10 +31542,10 @@
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../../addons/ofxCGAL/src,
-					../../../addons/ofxCGAL/libs/ofxCGAL/include,
-					../../../addons/ofxCGAL/libs/CGAL/include,
-					../../../addons/ofxCGAL/libs/CGAL/include/eigen3,
+					$(SRC_ROOT)../../../addons/ofxCGAL/src,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/ofxCGAL/include,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/include,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/include/eigen3,
 				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
@@ -31614,9 +31614,9 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
-					/Users/Koma/Documents/openFrameworks/of_v0.8.0_osx_release/addons/ofxCGAL/libs/CGAL/lib/osx/boost,
-					/Users/Koma/Documents/openFrameworks/of_v0.8.0_osx_release/addons/ofxCGAL/libs/CGAL/lib/osx/CGAL,
-					/Users/Koma/Documents/openFrameworks/of_v0.8.0_osx_release/addons/ofxCGAL/libs/CGAL/lib/osx,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/lib/osx/boost,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/lib/osx/CGAL,
+					$(SRC_ROOT)../../../addons/ofxCGAL/libs/CGAL/lib/osx,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
