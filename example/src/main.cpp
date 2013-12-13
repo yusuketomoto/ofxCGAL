@@ -6,7 +6,6 @@
 //
 //
 
-#include "main.h"
 #include "ofPoissonSurfaceApp.h"
 #include "ofSkinSurfaceApp.h"
 
@@ -22,8 +21,8 @@ int main( ){
     // by uncommenting out the appID.
     
     AppID appID;
-    appID = PoissonSurfaceApp;
-//    appID = SkinSurfaceApp;
+//    appID = PoissonSurfaceApp;
+    appID = SkinSurfaceApp;
     
     switch (appID) {
         case PoissonSurfaceApp:
