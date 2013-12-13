@@ -24,6 +24,9 @@ class ofSkinSurfaceApp : public ofBaseApp {
 public:
     
     void setup() {
+        ofSetFrameRate(30);
+        ofSetSphereResolution(10);
+        
         bDebug = false;
         bReset = true;
     }
