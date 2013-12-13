@@ -10,7 +10,7 @@ int nb_neighbors = 24;
 
 
 
-class ofApp : public ofBaseApp {
+class ofPoissonSurfaceApp : public ofBaseApp {
 public:
     
     void setup()
@@ -97,6 +97,6 @@ int main( ){
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN
 	// pass in width and height too:
-	ofRunApp(new ofApp());
+	ofRunApp(new ofPoissonSurfaceApp());
 
 }
