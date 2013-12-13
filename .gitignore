@@ -1,2 +1,12 @@
-
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.xccheckout
 *.xcscheme
+
+*.mode1v3
+*.mode2v3
+
+xcuserdata/
+
+*.app
