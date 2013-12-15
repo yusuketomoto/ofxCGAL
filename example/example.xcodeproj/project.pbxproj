@@ -84,6 +84,7 @@
 /* Begin PBXFileReference section */
 		67066B73185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofSkinSurfaceApp.h; sourceTree = "<group>"; };
 		67066B75185ACF1500E8D3B9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		67A8ECD4185D408A00C8F173 /* ofBooleanUnionApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofBooleanUnionApp.h; sourceTree = "<group>"; };
 		995530AF185A93980091EEE1 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost.a; sourceTree = "<group>"; };
 		995530B0185A93980091EEE1 /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_chrono.a; sourceTree = "<group>"; };
 		995530B1185A93980091EEE1 /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_date_time.a; sourceTree = "<group>"; };
@@ -29506,6 +29507,7 @@
 				67066B75185ACF1500E8D3B9 /* main.cpp */,
 				E4B69E1D0A3A1BDC003C02F2 /* ofPoissonSurfaceApp.h */,
 				67066B73185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h */,
+				67A8ECD4185D408A00C8F173 /* ofBooleanUnionApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
