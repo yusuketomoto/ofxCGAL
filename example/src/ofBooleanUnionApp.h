@@ -3,10 +3,10 @@
 //  Created by Lukasz Karluk on 13/12/13.
 //
 
-#include "ofMain.h"
-#include "ofxCGAL.h"
+#pragma once
 
-using namespace ofxCGAL;
+#include "ofMain.h"
+#include "ofxCGALBooleanOp.h"
 
 class ofBooleanUnionApp : public ofBaseApp {
 public:
@@ -15,8 +15,11 @@ public:
         ofSetFrameRate(30);
         ofSetSphereResolution(10);
         
+        bShowResult = false;
+        
         float radius = 200;
-        mesh1 = mesh2 = ofMesh::sphere(radius, 10, OF_PRIMITIVE_TRIANGLE_STRIP);
+        mesh1.load("sphere.ply");
+        mesh2.load("sphere.ply");
         
         ofMatrix4x4 mat1, mat2;
         mat1.makeTranslationMatrix(ofVec3f(-radius * 0.7, 0, 0));
@@ -42,18 +45,46 @@ public:
     void draw() {
         cam.begin();
         
-        ofSetColor(ofColor::red);
-        mesh1.drawWireframe();
-        mesh2.drawWireframe();
+        if(bShowResult == true) {
+            ofSetColor(ofColor::white);
+            meshResult.drawWireframe();
+        } else {
+            ofSetColor(ofColor::red);
+            mesh1.drawWireframe();
+            mesh2.drawWireframe();
+        }
+        
         ofSetColor(ofColor::white);
         
         cam.end();
         
-        ofDrawBitmapString(ofToString(ofGetFrameRate()) + " fps", 20, 20);
+        int x = 20;
+        int y = 20;
+        ofDrawBitmapString("Press '1' for OF_BOOLEAN_OPERATOR_UNION", x, y);
+        ofDrawBitmapString("Press '2' for OF_BOOLEAN_OPERATOR_DIFFERENCE", x, y+=20);
+        ofDrawBitmapString("Press '3' for OF_BOOLEAN_OPERATOR_INTERSECTION", x, y+=20);
+        ofDrawBitmapString("Press '4' for OF_BOOLEAN_OPERATOR_COMPLEMENT", x, y+=20);
+        
+        x = ofGetWidth() - 100;
+        y = 20;
+        ofDrawBitmapString(ofToString(ofGetFrameRate()) + " fps", x, y);
     }
     
     void keyPressed(int key) {
-        //
+        
+        bShowResult = true;
+        
+        if(key == '1') {
+            meshResult = ofxCGALBooleanOp::runOp(mesh1, mesh2, OF_BOOLEAN_OPERATOR_UNION);
+        } else if(key == '2') {
+            meshResult = ofxCGALBooleanOp::runOp(mesh1, mesh2, OF_BOOLEAN_OPERATOR_DIFFERENCE);
+        } else if(key == '3') {
+            meshResult = ofxCGALBooleanOp::runOp(mesh1, mesh2, OF_BOOLEAN_OPERATOR_INTERSECTION);
+        } else if(key == '4') {
+            meshResult = ofxCGALBooleanOp::runOp(mesh1, mesh2, OF_BOOLEAN_OPERATOR_COMPLEMENT);
+        } else {
+            bShowResult = false;
+        }
     }
     
 protected:
@@ -61,5 +92,7 @@ protected:
     ofEasyCam cam;
     ofMesh mesh1;
     ofMesh mesh2;
-    ofMesh meshUnion;
+    ofMesh meshResult;
+    
+    bool bShowResult;
 };

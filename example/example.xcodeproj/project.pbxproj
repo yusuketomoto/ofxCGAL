@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		67066B74185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h in Sources */ = {isa = PBXBuildFile; fileRef = 67066B73185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h */; };
 		67066B77185ACF1500E8D3B9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67066B75185ACF1500E8D3B9 /* main.cpp */; };
+		671269B8185F27A700F70484 /* ofxCGALBooleanOp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671269B6185F27A700F70484 /* ofxCGALBooleanOp.cpp */; };
+		671269BB185F27F000F70484 /* ofxCGAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671269B9185F27F000F70484 /* ofxCGAL.cpp */; };
 		99558523185A9CBB0091EEE1 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99555B0E185A9BEA0091EEE1 /* libc++.dylib */; };
 		9955904A185AE61200B6214F /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99559040185AE61200B6214F /* libboost.a */; };
 		9955904B185AE61300B6214F /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99559041185AE61200B6214F /* libboost_chrono.a */; };
@@ -31,7 +32,6 @@
 		E45BE9810E8CC7DD009D7055 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9770E8CC7DD009D7055 /* CoreServices.framework */; };
 		E45BE9830E8CC7DD009D7055 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9790E8CC7DD009D7055 /* OpenGL.framework */; };
 		E45BE9840E8CC7DD009D7055 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */; };
-		E4B69E200A3A1BDC003C02F2 /* ofPoissonSurfaceApp.h in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* ofPoissonSurfaceApp.h */; };
 		E4C2424710CC5A17004149E2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424410CC5A17004149E2 /* AppKit.framework */; };
 		E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424510CC5A17004149E2 /* Cocoa.framework */; };
 		E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424610CC5A17004149E2 /* IOKit.framework */; };
@@ -47,7 +47,6 @@
 		FB867C19183CA464004CD261 /* libgmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB867C03183CA463004CD261 /* libgmp.a */; };
 		FB867C1A183CA464004CD261 /* libgmpxx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB867C04183CA463004CD261 /* libgmpxx.a */; };
 		FB867C1B183CA464004CD261 /* libmpfr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB867C05183CA463004CD261 /* libmpfr.a */; };
-		FB867C1C183CA464004CD261 /* ofxCGAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB867C0D183CA463004CD261 /* ofxCGAL.cpp */; };
 		FB867C28183CAFC7004CD261 /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB867C27183CAFC7004CD261 /* IO.cpp */; };
 /* End PBXBuildFile section */
 
@@ -82,19 +81,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		67066B73185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofSkinSurfaceApp.h; sourceTree = "<group>"; };
 		67066B75185ACF1500E8D3B9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		671269B6185F27A700F70484 /* ofxCGALBooleanOp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCGALBooleanOp.cpp; sourceTree = "<group>"; };
+		671269B7185F27A700F70484 /* ofxCGALBooleanOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCGALBooleanOp.h; sourceTree = "<group>"; };
+		671269B9185F27F000F70484 /* ofxCGAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCGAL.cpp; sourceTree = "<group>"; };
+		671269BA185F27F000F70484 /* ofxCGAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCGAL.h; sourceTree = "<group>"; };
+		671269BC185F290D00F70484 /* ofPoissonSurfaceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofPoissonSurfaceApp.h; sourceTree = "<group>"; };
+		671269BD185F290D00F70484 /* ofSkinSurfaceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofSkinSurfaceApp.h; sourceTree = "<group>"; };
 		67A8ECD4185D408A00C8F173 /* ofBooleanUnionApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofBooleanUnionApp.h; sourceTree = "<group>"; };
-		995530AF185A93980091EEE1 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost.a; sourceTree = "<group>"; };
-		995530B0185A93980091EEE1 /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_chrono.a; sourceTree = "<group>"; };
-		995530B1185A93980091EEE1 /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_date_time.a; sourceTree = "<group>"; };
-		995530B2185A93980091EEE1 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_filesystem.a; sourceTree = "<group>"; };
-		995530B3185A93980091EEE1 /* libboost_graph.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_graph.a; sourceTree = "<group>"; };
-		995530B4185A93980091EEE1 /* libboost_random.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_random.a; sourceTree = "<group>"; };
-		995530B5185A93980091EEE1 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_regex.a; sourceTree = "<group>"; };
-		995530B6185A93980091EEE1 /* libboost_signals.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_signals.a; sourceTree = "<group>"; };
-		995530B7185A93980091EEE1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_system.a; sourceTree = "<group>"; };
-		995530B8185A93980091EEE1 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_thread.a; sourceTree = "<group>"; };
 		99555B0E185A9BEA0091EEE1 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		9955662C185AE5E600B6214F /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		9955662F185AE5E600B6214F /* accumulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = accumulators.hpp; sourceTree = "<group>"; };
@@ -10041,7 +10035,6 @@
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		E4B69B5B0A3A1756003C02F2 /* exampleDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exampleDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E4B69E1D0A3A1BDC003C02F2 /* ofPoissonSurfaceApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofPoissonSurfaceApp.h; path = src/ofPoissonSurfaceApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4C2424410CC5A17004149E2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		E4C2424510CC5A17004149E2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -12649,8 +12642,6 @@
 		FB867C03183CA463004CD261 /* libgmp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgmp.a; sourceTree = "<group>"; };
 		FB867C04183CA463004CD261 /* libgmpxx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgmpxx.a; sourceTree = "<group>"; };
 		FB867C05183CA463004CD261 /* libmpfr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmpfr.a; sourceTree = "<group>"; };
-		FB867C0D183CA463004CD261 /* ofxCGAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCGAL.cpp; sourceTree = "<group>"; };
-		FB867C0E183CA463004CD261 /* ofxCGAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCGAL.h; sourceTree = "<group>"; };
 		FB867C23183CAFC7004CD261 /* IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO.h; sourceTree = "<group>"; };
 		FB867C24183CAFC7004CD261 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		FB867C25183CAFC7004CD261 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
@@ -29543,8 +29534,8 @@
 			isa = PBXGroup;
 			children = (
 				67066B75185ACF1500E8D3B9 /* main.cpp */,
-				E4B69E1D0A3A1BDC003C02F2 /* ofPoissonSurfaceApp.h */,
-				67066B73185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h */,
+				671269BC185F290D00F70484 /* ofPoissonSurfaceApp.h */,
+				671269BD185F290D00F70484 /* ofSkinSurfaceApp.h */,
 				67A8ECD4185D408A00C8F173 /* ofBooleanUnionApp.h */,
 			);
 			path = src;
@@ -33058,8 +33049,10 @@
 		FB867C0C183CA463004CD261 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				FB867C0D183CA463004CD261 /* ofxCGAL.cpp */,
-				FB867C0E183CA463004CD261 /* ofxCGAL.h */,
+				671269BA185F27F000F70484 /* ofxCGAL.h */,
+				671269B9185F27F000F70484 /* ofxCGAL.cpp */,
+				671269B7185F27A700F70484 /* ofxCGALBooleanOp.h */,
+				671269B6185F27A700F70484 /* ofxCGALBooleanOp.cpp */,
 			);
 			name = src;
 			path = ../src;
@@ -33187,11 +33180,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4B69E200A3A1BDC003C02F2 /* ofPoissonSurfaceApp.h in Sources */,
-				67066B74185ACE8B00E8D3B9 /* ofSkinSurfaceApp.h in Sources */,
+				671269BB185F27F000F70484 /* ofxCGAL.cpp in Sources */,
+				671269B8185F27A700F70484 /* ofxCGALBooleanOp.cpp in Sources */,
 				FB867C28183CAFC7004CD261 /* IO.cpp in Sources */,
 				67066B77185ACF1500E8D3B9 /* main.cpp in Sources */,
-				FB867C1C183CA464004CD261 /* ofxCGAL.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

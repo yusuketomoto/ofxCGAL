@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include "ofMain.h"
 #include "ofxCGAL.h"
 
@@ -7,8 +10,6 @@ string file_name = "kitten.xyz";
 float cell_size = 0.001;
 float remove_percentage = 5.0;
 int nb_neighbors = 24;
-
-
 
 class ofPoissonSurfaceApp : public ofBaseApp {
 public:

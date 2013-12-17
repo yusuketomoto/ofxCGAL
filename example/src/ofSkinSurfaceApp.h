@@ -3,6 +3,8 @@
 //  Created by Lukasz Karluk on 13/12/13.
 //
 
+#pragma once
+
 #include "ofMain.h"
 #include "ofxCGAL.h"
 
@@ -10,15 +12,6 @@
 #include <CGAL/make_skin_surface_mesh_3.h>
 
 using namespace ofxCGAL;
-
-typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
-typedef CGAL::Skin_surface_traits_3<K>                        Traits;
-typedef CGAL::Skin_surface_3<Traits>                          Skin_surface_3;
-typedef Skin_surface_3::FT                                    FT;
-typedef Skin_surface_3::Weighted_point                        Weighted_point;
-typedef Weighted_point::Point                                 Bare_point;
-typedef CGAL::Skin_surface_polyhedral_items_3<Skin_surface_3> Polyhedral_items;
-typedef CGAL::Polyhedron_3<K, Polyhedral_items>               Polyhedron;
 
 class ofSkinSurfaceApp : public ofBaseApp {
 public:
@@ -52,6 +45,15 @@ public:
         }
         
         //----------------------------------------------------------------
+        typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
+        typedef CGAL::Skin_surface_traits_3<K>                        Traits;
+        typedef CGAL::Skin_surface_3<Traits>                          Skin_surface_3;
+        typedef Skin_surface_3::FT                                    FT;
+        typedef Skin_surface_3::Weighted_point                        Weighted_point;
+        typedef Weighted_point::Point                                 Bare_point;
+        typedef CGAL::Skin_surface_polyhedral_items_3<Skin_surface_3> Polyhedral_items;
+        typedef CGAL::Polyhedron_3<K, Polyhedral_items>               Polyhedron;
+        
         std::list<Weighted_point> l;
         FT shrinkfactor = 0.5;
         
