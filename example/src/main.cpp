@@ -24,8 +24,8 @@ int main( ){
     
     AppID appID;
 //    appID = PoissonSurfaceApp;
-//    appID = SkinSurfaceApp;
-    appID = BooleanUnionApp;
+    appID = SkinSurfaceApp;
+//    appID = BooleanUnionApp;
     
     switch (appID) {
         case PoissonSurfaceApp:
