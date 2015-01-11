@@ -11,6 +11,7 @@
 		671269B8185F27A700F70484 /* ofxCGALBooleanOp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671269B6185F27A700F70484 /* ofxCGALBooleanOp.cpp */; };
 		671269BB185F27F000F70484 /* ofxCGAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671269B9185F27F000F70484 /* ofxCGAL.cpp */; };
 		6728BEDF186045B600A66D5B /* ofxCGALSkinSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6728BEDD186045B600A66D5B /* ofxCGALSkinSurface.cpp */; };
+		678132D71A62B3CD00D48693 /* ofxCGALStreamlines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 678132D51A62B3CD00D48693 /* ofxCGALStreamlines.cpp */; };
 		99558523185A9CBB0091EEE1 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99555B0E185A9BEA0091EEE1 /* libc++.dylib */; };
 		9955904A185AE61200B6214F /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99559040185AE61200B6214F /* libboost.a */; };
 		9955904B185AE61300B6214F /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99559041185AE61200B6214F /* libboost_chrono.a */; };
@@ -91,6 +92,9 @@
 		671269BD185F290D00F70484 /* ofSkinSurfaceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofSkinSurfaceApp.h; sourceTree = "<group>"; };
 		6728BEDD186045B600A66D5B /* ofxCGALSkinSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCGALSkinSurface.cpp; sourceTree = "<group>"; };
 		6728BEDE186045B600A66D5B /* ofxCGALSkinSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCGALSkinSurface.h; sourceTree = "<group>"; };
+		678132D51A62B3CD00D48693 /* ofxCGALStreamlines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCGALStreamlines.cpp; sourceTree = "<group>"; };
+		678132D61A62B3CD00D48693 /* ofxCGALStreamlines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCGALStreamlines.h; sourceTree = "<group>"; };
+		678132D81A62B55900D48693 /* ofStreamlinesApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofStreamlinesApp.h; sourceTree = "<group>"; };
 		67A8ECD4185D408A00C8F173 /* ofBooleanUnionApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofBooleanUnionApp.h; sourceTree = "<group>"; };
 		99555B0E185A9BEA0091EEE1 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		9955662C185AE5E600B6214F /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
@@ -29540,6 +29544,7 @@
 				671269BC185F290D00F70484 /* ofPoissonSurfaceApp.h */,
 				671269BD185F290D00F70484 /* ofSkinSurfaceApp.h */,
 				67A8ECD4185D408A00C8F173 /* ofBooleanUnionApp.h */,
+				678132D81A62B55900D48693 /* ofStreamlinesApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -33058,6 +33063,8 @@
 				6728BEDD186045B600A66D5B /* ofxCGALSkinSurface.cpp */,
 				671269B7185F27A700F70484 /* ofxCGALBooleanOp.h */,
 				671269B6185F27A700F70484 /* ofxCGALBooleanOp.cpp */,
+				678132D61A62B3CD00D48693 /* ofxCGALStreamlines.h */,
+				678132D51A62B3CD00D48693 /* ofxCGALStreamlines.cpp */,
 			);
 			name = src;
 			path = ../src;
@@ -33185,6 +33192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				678132D71A62B3CD00D48693 /* ofxCGALStreamlines.cpp in Sources */,
 				671269BB185F27F000F70484 /* ofxCGAL.cpp in Sources */,
 				671269B8185F27A700F70484 /* ofxCGALBooleanOp.cpp in Sources */,
 				FB867C28183CAFC7004CD261 /* IO.cpp in Sources */,

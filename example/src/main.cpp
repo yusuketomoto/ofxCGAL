@@ -9,11 +9,13 @@
 #include "ofPoissonSurfaceApp.h"
 #include "ofSkinSurfaceApp.h"
 #include "ofBooleanUnionApp.h"
+#include "ofStreamlinesApp.h"
 
 enum AppID {
     PoissonSurfaceApp,
     SkinSurfaceApp,
     BooleanUnionApp,
+    StreamlinesApp
 };
 
 int main( ){
@@ -24,8 +26,9 @@ int main( ){
     
     AppID appID;
 //    appID = PoissonSurfaceApp;
-    appID = SkinSurfaceApp;
+//    appID = SkinSurfaceApp;
 //    appID = BooleanUnionApp;
+    appID = StreamlinesApp;
     
     switch (appID) {
         case PoissonSurfaceApp:
@@ -36,6 +39,9 @@ int main( ){
             break;
         case BooleanUnionApp:
             ofRunApp(new ofBooleanUnionApp());
+            break;
+        case StreamlinesApp:
+            ofRunApp(new ofStreamlinesApp());
             break;
         default:
             break;
