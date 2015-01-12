@@ -12710,7 +12710,7 @@
 				673C52AC1A62CBC70010DEC8 /* src */,
 			);
 			name = ofxOSXBoost;
-			path = ../../ofxOSXBoost;
+			path = ../../../addons/ofxOSXBoost;
 			sourceTree = "<group>";
 		};
 		673C288A1A62CBAE0010DEC8 /* include */ = {
@@ -29589,6 +29589,7 @@
 				FB867C0C183CA463004CD261 /* src */,
 			);
 			name = ofxCGAL;
+			path = ../../../addons/ofxCGAL;
 			sourceTree = "<group>";
 		};
 		FB8648A6183CA42F004CD261 /* libs */ = {
@@ -29597,8 +29598,7 @@
 				FB867C20183CAFC7004CD261 /* ofxCGAL */,
 				FB8648A7183CA42F004CD261 /* CGAL */,
 			);
-			name = libs;
-			path = ../libs;
+			path = libs;
 			sourceTree = "<group>";
 		};
 		FB8648A7183CA42F004CD261 /* CGAL */ = {
@@ -33090,8 +33090,7 @@
 				678132D61A62B3CD00D48693 /* ofxCGALStreamlines.h */,
 				678132D51A62B3CD00D48693 /* ofxCGALStreamlines.cpp */,
 			);
-			name = src;
-			path = ../src;
+			path = src;
 			sourceTree = "<group>";
 		};
 		FB867C20183CAFC7004CD261 /* ofxCGAL */ = {
