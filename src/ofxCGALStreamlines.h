@@ -65,6 +65,14 @@ public:
     ofxCGALStreamlines();
     ~ofxCGALStreamlines();
     
+    void setSeparationDistance(float value);
+    float getSeparationDistance();
+    
+    void setSaturationRatio(float value);
+    float getSaturationRatio();
+    
+    const vector<ofPolyline> & getPolys();
+    
     void calc(const ofxCGALVectorField & vectorField);
     
     void draw();

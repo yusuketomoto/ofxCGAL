@@ -44,6 +44,27 @@ ofxCGALStreamlines::~ofxCGALStreamlines() {
 }
 
 //-------------------------------------------------------------
+void ofxCGALStreamlines::setSeparationDistance(float value) {
+    separatingDistance = value;
+}
+
+float ofxCGALStreamlines::getSeparationDistance() {
+    return separatingDistance;
+}
+
+void ofxCGALStreamlines::setSaturationRatio(float value) {
+    saturationRatio = value;
+}
+
+float ofxCGALStreamlines::getSaturationRatio() {
+    return saturationRatio;
+}
+
+const vector<ofPolyline> & ofxCGALStreamlines::getPolys() {
+    return streamlines;
+}
+
+//-------------------------------------------------------------
 void ofxCGALStreamlines::calc(const ofxCGALVectorField & vectorField) {
     
     unsigned int x_samples = vectorField.getWidth();
