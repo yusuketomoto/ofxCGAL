@@ -34,8 +34,8 @@ In Xcode Project Build Settings:
 
 Add to 'Link Binary With Libraries' add all the libraries found in the following folders ofx
 
-- ```ofxCGAL/libs/CGAL/lib/osx/CGAL```
-- ```ofxCGAL/libs/CGAL/lib/osx/CGAL```
+- ```ofxCGAL/libs/CGAL/lib/osx/ ```
+- ```ofxCGAL/libs/CGAL/lib/osx/CGAL/ ```
 
 
 
