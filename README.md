@@ -15,17 +15,19 @@ Requires: (for OSX)
 
 In Xcode Project Build Settings:
 
-#### Add to Library Search Paths ( ```LIBRARY_SEARCH_PATHS``` ) 
-```$(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/lib/osx```
-```$(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/lib/osx/CGAL```
+#### Add to Library Search Paths ( ```LIBRARY_SEARCH_PATHS``` )
+
+``` $(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/lib/osx ```
+``` $(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/lib/osx/CGAL ```
 
 
 
 #### Add to Header Search Paths ( ```HEADER_SEARCH_PATHS``` )
-```$(SRCROOT)/../../../addons/ofxCGAL/src```
-```$(SRCROOT)/../../../addons/ofxCGAL/libs/ofxCGAL/include```
-```$(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/include```
-```$(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/include/eigen3```
+
+``` $(SRCROOT)/../../../addons/ofxCGAL/src ```
+``` $(SRCROOT)/../../../addons/ofxCGAL/libs/ofxCGAL/include ```
+``` $(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/include ```
+``` $(SRCROOT)/../../../addons/ofxCGAL/libs/CGAL/include/eigen3 ```
 
 
 #### In the Target under Build Phases
